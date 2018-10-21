@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="viewport" content="width=device-width">
 
 
         <title>Christophers Tips</title>
@@ -135,44 +135,44 @@
 
 <p>If you do not have npm installed you will need to do that first.</p>
 
-<div class="codehilite"><pre><span></span><code>brew intall npm
+<pre><code>brew intall npm
 npm install -g gitbook-cli
 gitbook update
-</code></pre></div>
+</code></pre>
 
 <p>Next create two directories, one for the Gitbook MD files and the other for the static site that will be generated. Gitbook will generate the static site inside the MD file but we'll need to move it to the other direcory when pushing to Github.</p>
 
-<div class="codehilite"><pre><span></span><code>mkdir documentation
-<span class="nb">cd</span> documentation
+<pre><code>mkdir documentation
+cd documentation
 mkdir site
 mkdir gitbook
-</code></pre></div>
+</code></pre>
 
 <p>Next both directories need to have a git repo intialized. Go to Github.com and make a repo for you MD files with any name you like. Make another repo named myusername.gitbook.io.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> gitbook
+<pre><code>cd gitbook
 git init
 touch .gitignore
 
-<span class="c1"># you need to add _book to the .gitignore so you do not duplate on github</span>
+# you need to add _book to the .gitignore so you do not duplate on github
 nano .gitignore
 _book
-<span class="c1"># control + x then y to save</span>
+# control + x then y to save
 
 git remote add origin https//github.com/myusername/myrepo.git
 
-<span class="nb">cd</span> ../site
+cd ../site
 git init
 git clone https://github.com/christopherpickering/christopherpickering.github.io.git
 mv christopherpickering.github.io/* .
 rm -Rf christopherpickering.github.io
 git remote add origin https://github.com/myusername/myusername.gitbook.io.git
-</code></pre></div>
+</code></pre>
 
 <p>Next create the gitbook.</p>
 
-<div class="codehilite"><pre><span></span><code>gitbook init
-</code></pre></div>
+<pre><code>gitbook init
+</code></pre>
 
 <p>[Gitbook Documentation] is available.</p>
 
@@ -180,16 +180,16 @@ git remote add origin https://github.com/myusername/myusername.gitbook.io.git
 
 <p>By default any theming we do will extend the default. Create the following structure for themes.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> gitbook
+<pre><code>cd gitbook
 mkdir _layouts
-<span class="nb">cd</span> _layouts
+cd _layouts
 mkdir websites
-<span class="nb">cd</span> websites
-<span class="c1"># any page tweaks will be here</span>
+cd websites
+# any page tweaks will be here
 touch page.html
-<span class="c1"># any page header tweaks will be here</span>
+# any page header tweaks will be here
 touch header.html
-</code></pre></div>
+</code></pre>
 
 <p>Copy any theme sections you need to change from the [default theme].
 <a href="https://github.com/GitbookIO/theme-api">example theme 1</a>
@@ -207,13 +207,13 @@ touch header.html
 
 <p>You will most likely need to give yourself permission to run the scripts.</p>
 
-<div class="codehilite"><pre><span></span><code>sudo chmod <span class="m">700</span> build.bash
-sudo chmod <span class="m">700</span> push.bash
-sudo chmod <span class="m">700</span> build_and_push.bash
-sudo chmod <span class="m">700</span> pull.bash
+<pre><code>sudo chmod 700 build.bash
+sudo chmod 700 push.bash
+sudo chmod 700 build_and_push.bash
+sudo chmod 700 pull.bash
 
 ./build_and_push.bash
-</code></pre></div>
+</code></pre>
 
 <h2>Register a Domain With Google</h2>
 
@@ -223,10 +223,10 @@ sudo chmod <span class="m">700</span> pull.bash
 
 <h2>Add CNAME Records to your project</h2>
 
-<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> ../site
+<pre><code>cd ../site
 touch CNAME
 nano CNAME
-</code></pre></div>
+</code></pre>
 
 <p>Add two lines to the CNAME file</p>
 
@@ -236,18 +236,18 @@ www.mysite.com
 
 <p>Finally, build and push the site.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># to build and push to github</span>
-./build_and_push.bash <span class="s1">&#39;optonal commit message&#39;</span>
+<pre><code># to build and push to github
+./build_and_push.bash 'optonal commit message'
 
-<span class="c1"># to just build for testing</span>
+# to just build for testing
 ./build.bash
 
-<span class="c1"># to pull latest updates from github</span>
+# to pull latest updates from github
 ./pull.bash
 
-<span class="c1"># to push latest updates to github</span>
-./push.bash <span class="s1">&#39;optional commit message&#39;</span>
-</code></pre></div>
+# to push latest updates to github
+./push.bash 'optional commit message'
+</code></pre>
 
 <p>Nice! You will be able to see you site now at mysite.com!</p>
 

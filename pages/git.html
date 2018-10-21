@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="viewport" content="width=device-width">
 
 
         <title>Christophers Tips</title>
@@ -126,19 +126,19 @@
 
 <h2>Setup Git</h2>
 
-<div class="codehilite"><pre><span></span><code>git config user.name <span class="s2">&quot;Firstname Lastname&quot;</span>
-git config user.email <span class="s2">&quot;email@email.com&quot;</span>
-</code></pre></div>
+<pre><code>git config user.name "Firstname Lastname"
+git config user.email "email@email.com"
+</code></pre>
 
 <p>Initialize a get repo</p>
 
-<div class="codehilite"><pre><span></span><code>git init
-</code></pre></div>
+<pre><code>git init
+</code></pre>
 
 <p>Create a .gitignore file to keep unneeded or confidential information from the repository.</p>
 
-<div class="codehilite"><pre><span></span><code>touch .gitignore
-</code></pre></div>
+<pre><code>touch .gitignore
+</code></pre>
 
 <p>Alternativly you can pre-create one here https://www.gitignore.io, or copy and past into the .gitignore.</p>
 
@@ -150,64 +150,64 @@ git config user.email <span class="s2">&quot;email@email.com&quot;</span>
 
 <p>If the project already exists on GitHub and you plan to contribute it can be pulled.</p>
 
-<div class="codehilite"><pre><span></span><code>git remote add origin https://github.com/username/project_name.git
+<pre><code>git remote add origin https://github.com/username/project_name.git
 git pull
-</code></pre></div>
+</code></pre>
 
 <p>To take a copy of the code for your own use</p>
 
-<div class="codehilite"><pre><span></span><code>git clone https://github.com/username/project_name.git
-</code></pre></div>
+<pre><code>git clone https://github.com/username/project_name.git
+</code></pre>
 
 <h2>Create Branch</h2>
 
 <p>Run this command to get a list of branches and the current branch.</p>
 
-<div class="codehilite"><pre><span></span><code>git branch 
-</code></pre></div>
+<pre><code>git branch 
+</code></pre>
 
 <p>To create a new branch</p>
 
-<div class="codehilite"><pre><span></span><code>git branch &lt;my_new_branch&gt;
-</code></pre></div>
+<pre><code>git branch &lt;my_new_branch&gt;
+</code></pre>
 
 <p>To change current working branch</p>
 
-<div class="codehilite"><pre><span></span><code>git checkout &lt;my_branch&gt;
-</code></pre></div>
+<pre><code>git checkout &lt;my_branch&gt;
+</code></pre>
 
 <p>Create the branch from GitHub locally and switch to it</p>
 
-<div class="codehilite"><pre><span></span><code>git checkout -b &lt;my_branch&gt;
-</code></pre></div>
+<pre><code>git checkout -b &lt;my_branch&gt;
+</code></pre>
 
 <p>Update a branch if the remote has changed</p>
 
-<div class="codehilite"><pre><span></span><code>git fetch origin
-</code></pre></div>
+<pre><code>git fetch origin
+</code></pre>
 
 <p>Merge a branch back to master</p>
 
-<div class="codehilite"><pre><span></span><code>git checkout master
+<pre><code>git checkout master
 git merge &lt;my_branch&gt;
-</code></pre></div>
+</code></pre>
 
 <p>To delete a branch</p>
 
-<div class="codehilite"><pre><span></span><code>git branch -d 
-</code></pre></div>
+<pre><code>git branch -d 
+</code></pre>
 
 <p>To reset a branch to master</p>
 
-<div class="codehilite"><pre><span></span><code>git reset --hard master
-</code></pre></div>
+<pre><code>git reset --hard master
+</code></pre>
 
 <p>Want to get a file from another branch? Checkout the branch you want to copy the file(s) too. Then checkout the files from the source branch. Don't forget to commit when finished adding files.</p>
 
-<div class="codehilite"><pre><span></span><code>git checkout &lt;destination_branch&gt;
+<pre><code>git checkout &lt;destination_branch&gt;
 git checkout &lt;source_branch&gt; &lt;paths&gt;
-git commit -a -m <span class="s2">&quot;added a couple files from the other branch&quot;</span>
-</code></pre></div>
+git commit -a -m "added a couple files from the other branch"
+</code></pre>
 
 <h1>Commit Code</h1>
 
@@ -215,56 +215,62 @@ git commit -a -m <span class="s2">&quot;added a couple files from the other bran
 
 <p>Run these commands to commit latest changes.</p>
 
-<div class="codehilite"><pre><span></span><code>git add .
-git commit -m <span class="s1">&#39;comment about latest changes&#39;</span>
-</code></pre></div>
+<pre><code>git add .
+git commit -m 'comment about latest changes'
+</code></pre>
 
 <p>Or more condensed</p>
 
-<div class="codehilite"><pre><span></span><code>git commit -a -m <span class="s1">&#39;comment about latest changes&#39;</span>
-</code></pre></div>
+<pre><code>git commit -a -m 'comment about latest changes'
+</code></pre>
 
 <h2>To GitHub</h2>
 
 <p>Add GitHub as a remote</p>
 
-<div class="codehilite"><pre><span></span><code>git remote add origin https://github.com/username/project_name.git
-</code></pre></div>
+<pre><code>git remote add origin https://github.com/username/project_name.git
+</code></pre>
 
 <p>If you want to change remote or had a spelling mistake (opps)</p>
 
-<div class="codehilite"><pre><span></span><code>git remote rm origin
+<pre><code>git remote rm origin
 git remote add origin https://github.com/username/project_name.git
-</code></pre></div>
+
+# to see what the remote is... incase you forgot :)
+git remote -v
+</code></pre>
 
 <p>Push to remote</p>
 
-<div class="codehilite"><pre><span></span><code>git push origin &lt;branch name&gt;
-Removing files that are in .gitignore
-</code></pre></div>
+<pre><code>git push origin &lt;branch name&gt;
+# if you need to force the update..
+git push origin &lt;branch name&gt; --force
+</code></pre>
+
+<h2>Removing files that are in .gitignore</h2>
 
 <p>To see files that are not excluded by .gitignore</p>
 
-<div class="codehilite"><pre><span></span><code>git ls-files -ci --exclude-standard
-</code></pre></div>
+<pre><code>git ls-files -ci --exclude-standard
+</code></pre>
 
 <p>To remove excluded files from commit</p>
 
-<div class="codehilite"><pre><span></span><code>git ls-files -ci --exclude-standard -z <span class="p">|</span> xargs -0 git rm --cached
-</code></pre></div>
+<pre><code>git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached
+</code></pre>
 
 <p>Create Alias for this command so you can run 'git apply-gitignore' to fix any commit that missed updates in gitignore.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># change editor to nano</span>
-git config --global core.editor <span class="s2">&quot;nano&quot;</span>
+<pre><code># change editor to nano
+git config --global core.editor "nano"
 
-<span class="c1"># edit file</span>
+# edit file
 git config --global --edit
 
-<span class="c1"># add following text</span>
-<span class="o">[</span>alias<span class="o">]</span>
-   apply-gitignore <span class="o">=</span> !git ls-files -ci --exclude-standard -z <span class="p">|</span> xargs -0 git rm --cached 
-</code></pre></div>
+# add following text
+[alias]
+   apply-gitignore = !git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached 
+</code></pre>
 
                                         
                                     </section>

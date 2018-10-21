@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="viewport" content="width=device-width">
 
 
         <title>Christophers Tips</title>
@@ -126,29 +126,29 @@
 
 <h2>Install FreeTDS and UnixODBC</h2>
 
-<div class="codehilite"><pre><span></span><code>brew install unixodbc
+<pre><code>brew install unixodbc
 brew install freetds --with-unixodbc
-</code></pre></div>
+</code></pre>
 
 <h2>Configure TDS Connection Information</h2>
 
 <p>Edit the file /usr/local/etc/freetds.conf</p>
 
-<div class="codehilite"><pre><span></span><code>nano /usr/local/etc/freetds.conf
-</code></pre></div>
+<pre><code>nano /usr/local/etc/freetds.conf
+</code></pre>
 
 <p>Add your connection information to the end. </p>
 
-<div class="codehilite"><pre><span></span><code><span class="o">[</span>&lt;connection_name&gt;<span class="o">]</span>
-<span class="nv">host</span> <span class="o">=</span> &lt;hostname&gt;
-<span class="nv">port</span> <span class="o">=</span> &lt;port&gt;
-tds <span class="nv">version</span> <span class="o">=</span> <span class="m">7</span>.0
-</code></pre></div>
+<pre><code>[&lt;connection_name&gt;]
+host = &lt;hostname&gt;
+port = &lt;port&gt;
+tds version = 7.0
+</code></pre>
 
 <p>Test the new connection with </p>
 
-<div class="codehilite"><pre><span></span><code>tsql -S &lt;connection_name&gt; -U &lt;username&gt; -P &lt;password&gt;
-</code></pre></div>
+<pre><code>tsql -S &lt;connection_name&gt; -U &lt;username&gt; -P &lt;password&gt;
+</code></pre>
 
 <h2>Add TDS Connection info to the ODBC driver list</h2>
 
@@ -156,43 +156,43 @@ tds <span class="nv">version</span> <span class="o">=</span> <span class="m">7</
 
 <p>Update odbcinst.ini to include the info below.</p>
 
-<div class="codehilite"><pre><span></span><code>odbcinst -j
+<pre><code>odbcinst -j
 
-<span class="c1"># get path from results of odbcinst -j</span>
+# get path from results of odbcinst -j
 nano /usr/local/etc/odbcinst.ini
 
-<span class="o">[</span>FreeTDS<span class="o">]</span>
-<span class="nv">Description</span><span class="o">=</span>FreeTDS Driver <span class="k">for</span> Linux <span class="p">&amp;</span> MSSQL
-<span class="nv">Driver</span><span class="o">=</span>/usr/local/lib/libtdsodbc.so
-<span class="nv">Setup</span><span class="o">=</span>/usr/local/lib/libtdsodbc.so
-<span class="nv">UsageCount</span><span class="o">=</span><span class="m">1</span>
+[FreeTDS]
+Description=FreeTDS Driver for Linux &amp; MSSQL
+Driver=/usr/local/lib/libtdsodbc.so
+Setup=/usr/local/lib/libtdsodbc.so
+UsageCount=1
 
-<span class="c1"># control x to save</span>
-</code></pre></div>
+# control x to save
+</code></pre>
 
 <p>Next, edit the odbc.ini file.</p>
 
 <p>Add the following info.</p>
 
-<div class="codehilite"><pre><span></span><code>odbcinst -j
+<pre><code>odbcinst -j
 
-<span class="c1"># get path from results of odbcinst -j</span>
+# get path from results of odbcinst -j
 nano /usr/local/etc/odbc.ini
 
-<span class="o">[</span>&lt;connection_name&gt;<span class="o">]</span>
-<span class="nv">Description</span>         <span class="o">=</span> &lt;connection_description&gt;
-<span class="nv">Driver</span>              <span class="o">=</span> FreeTDS 
-<span class="nv">Servername</span>          <span class="o">=</span> &lt;connection_name&gt;
+[&lt;connection_name&gt;]
+Description         = &lt;connection_description&gt;
+Driver              = FreeTDS 
+Servername          = &lt;connection_name&gt;
 
-<span class="c1"># note: FreeTDS must match the name given in odbcinst.ini</span>
-</code></pre></div>
+# note: FreeTDS must match the name given in odbcinst.ini
+</code></pre>
 
 <h2>Install pyodbc</h2>
 
 <p>Finally, pyodbc for python can be installed</p>
 
-<div class="codehilite"><pre><span></span><code>pip install pyodbc
-</code></pre></div>
+<pre><code>pip install pyodbc
+</code></pre>
 
                                         
                                     </section>

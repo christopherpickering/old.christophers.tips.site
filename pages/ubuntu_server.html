@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="viewport" content="width=device-width">
 
 
         <title>Christophers Tips</title>
@@ -138,8 +138,8 @@
 
 <p>Make sure the network connection to the new machine is bridged. Restart the VM. </p>
 
-<div class="codehilite"><pre><span></span><code>$ sudo reboot
-</code></pre></div>
+<pre><code>$ sudo reboot
+</code></pre>
 
 <h2>Create User and Working Directory</h2>
 
@@ -147,91 +147,91 @@
 
 <p>You may want to create another generic user acount for anyone doing code work to use.</p>
 
-<div class="codehilite"><pre><span></span><code>sudo adduser &lt;new username&gt;
-<span class="c1"># enter pass and other info</span>
+<pre><code>sudo adduser &lt;new username&gt;
+# enter pass and other info
 
-<span class="c1"># add to sudo group</span>
+# add to sudo group
 sudo usermod -aG sudo &lt;new username&gt;
 
-<span class="c1"># if you want to switch to the new user</span>
+# if you want to switch to the new user
 su - &lt;new username&gt;
-</code></pre></div>
+</code></pre>
 
 <h3>Create the development directory</h3>
 
-<div class="codehilite"><pre><span></span><code>mkdir websites
-<span class="nb">cd</span> websites
+<pre><code>mkdir websites
+cd websites
 mkdir testsite
-</code></pre></div>
+</code></pre>
 
 <h3>Pull Your Code From GIT Repository</h3>
 
 <p>Update Git settings and initialize a git repository for your project.</p>
 
-<div class="codehilite"><pre><span></span><code>git config --global user.name <span class="s2">&quot;user name&quot;</span>
-git config --global user.email <span class="s2">&quot;email address&quot;</span>
-<span class="nb">cd</span> testsite
+<pre><code>git config --global user.name "user name"
+git config --global user.email "email address"
+cd testsite
 git init
 git remote add origin https://github.com/christopherpickering/django-test.git
 git pull
-</code></pre></div>
+</code></pre>
 
 <p>Settings.py file is not a part of the repository. You can make the file and copy in from your host machine. If it is a local virtual machine it can help to set the allowed hosts to '*' if you have dynamic hosts.</p>
 
-<div class="codehilite"><pre><span></span><code>sudo scp <span class="s1">&#39;username&#39;</span>@<span class="s1">&#39;machost&#39;</span>:~/Documents/Projects/django-project/testsite/testsite/settings.py /home/websites/testsite/testsite/settings.py
-</code></pre></div>
+<pre><code>sudo scp 'username'@'machost':~/Documents/Projects/django-project/testsite/testsite/settings.py /home/websites/testsite/testsite/settings.py
+</code></pre>
 
 <h2>Install PIP and Virtualenv Tools</h2>
 
 <p>We will be doing all work with a virtual environment. First we need to add the repositorys for pip, install pip, install venv, create a venv, and then install any packages we need.</p>
 
-<div class="codehilite"><pre><span></span><code>sudo apt-get install software-properties-common
+<pre><code>sudo apt-get install software-properties-common
 sudo apt-add-repository universe
 sudo apt-get update
 ​
 sudo apt-get install python3-pip
-<span class="c1"># create pip alias for pip3 to save time typing pip3..</span>
+# create pip alias for pip3 to save time typing pip3..
 sudo pip3 install virtualenv
 
 sudo virtualenv venv
-<span class="nb">source</span> venv/bin/activate
-<span class="c1"># install any needed packages</span>
+source venv/bin/activate
+# install any needed packages
 sudo pip install &lt;packages&gt;
 
-<span class="c1"># check that you have ownership of the venv</span>
+# check that you have ownership of the venv
 ls -l
-<span class="c1"># if something got messed up with permissions and you don&#39;t own the venv, you can take ownership like this</span>
+# if something got messed up with permissions and you don't own the venv, you can take ownership like this
 sudo chown -R youruser:youruser venv
-</code></pre></div>
+</code></pre>
 
 <p>If you created a requirements.txt file in the development mac, you can use it here to install all the needed packages. Activate the virual env and then run this.</p>
 
-<div class="codehilite"><pre><span></span><code>pip install -r requirements.txt
-</code></pre></div>
+<pre><code>pip install -r requirements.txt
+</code></pre>
 
 <p>If pyodbc is needed try this.</p>
 
-<div class="codehilite"><pre><span></span><code>sudo apt-get install unixodbc-dev
+<pre><code>sudo apt-get install unixodbc-dev
 
-<span class="nb">source</span> venv/bin/activate
+source venv/bin/activate
 pip install pyodbc
-</code></pre></div>
+</code></pre>
 
 <h2>Install and Setup MySQL</h2>
 
 <h3>Install Python Package and Ubuntu Packages</h3>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># for python</span>
-<span class="nb">source</span> venv/bin/activate
+<pre><code># for python
+source venv/bin/activate
 pip install mysqlclient
 deactivate
 
-<span class="c1"># for ubuntu</span>
+# for ubuntu
 sudo apt update
 sudo apt install mysql-server
 sudo apt install libmysqlclient-dev -y
 sudo apt install python-mysqldb
-</code></pre></div>
+</code></pre>
 
 <h3>Setup MySQL</h3>
 
@@ -239,38 +239,38 @@ sudo apt install python-mysqldb
 
 <p>Turn on MySQL and change settings so that is will auto start on reboot.</p>
 
-<div class="codehilite"><pre><span></span><code>systemctl start mysql
-systemctl <span class="nb">enable</span> mysql
-<span class="c1"># optional, for extra password security you can run this.</span>
+<pre><code>systemctl start mysql
+systemctl enable mysql
+# optional, for extra password security you can run this.
 sudo mysql_secure_installation
-</code></pre></div>
+</code></pre>
 
 <p>Set a password for root sql user.</p>
 
-<div class="codehilite"><pre><span></span><code>sudo mysql
-<span class="c1"># set a root password.. where password is your pass</span>
-ALTER USER <span class="s1">&#39;root&#39;</span>@<span class="s1">&#39;localhost&#39;</span> IDENTIFIED WITH mysql_native_password BY <span class="s1">&#39;password&#39;</span><span class="p">;</span>
+<pre><code>sudo mysql
+# set a root password.. where password is your pass
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 flush privileges
-<span class="nb">exit</span>
+exit
 
-<span class="c1"># try to login with new pass to verify. </span>
+# try to login with new pass to verify. 
 mysql -u root -p
-</code></pre></div>
+</code></pre>
 
 <p>Finally, create the database you referenced in django's settings.py. </p>
 
-<div class="codehilite"><pre><span></span><code> <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">my_database</span><span class="p">;</span>
-</code></pre></div>
+<pre><code> CREATE DATABASE my_database;
+</code></pre>
 
 <h2>Build database tables</h2>
 
 <p>Next we can create the database tables needed for your django project.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="nb">source</span> venv/bin/activate
+<pre><code>source venv/bin/activate
 python manage.py makemigrations
 python manage.py migrate
 deactivate
-</code></pre></div>
+</code></pre>
 
 <h2>Setup ufw, Gunicorn, and NGINX</h2>
 
@@ -280,19 +280,19 @@ deactivate
 
 <p>First install the package</p>
 
-<div class="codehilite"><pre><span></span><code>$ sudo apt-get install ufw
-</code></pre></div>
+<pre><code>$ sudo apt-get install ufw
+</code></pre>
 
 <p>Setup correct port blocking.</p>
 
-<div class="codehilite"><pre><span></span><code>sudo ufw default deny
-<span class="c1"># if you access the server through ssh, you might want to enable that traffic ;)</span>
+<pre><code>sudo ufw default deny
+# if you access the server through ssh, you might want to enable that traffic ;)
 sudo ufw allow ssh
-<span class="c1"># if you need remote access to your sql database</span>
+# if you need remote access to your sql database
 sudo ufw allo MySQL
-sudo ufw <span class="nb">enable</span>
-sudo ufw allow <span class="m">8800</span>
-</code></pre></div>
+sudo ufw enable
+sudo ufw allow 8800
+</code></pre>
 
 <h3>Setup Gunicorn</h3>
 
@@ -300,41 +300,41 @@ sudo ufw allow <span class="m">8800</span>
 
 <p>Gunicorn is a python package and installed through the pip virtual environment.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="nb">source</span> venv/bin/activate
+<pre><code>source venv/bin/activate
 pip install gunicorn
 deactivate
-</code></pre></div>
+</code></pre>
 
 <p>Create gunicorn service information.</p>
 
-<div class="codehilite"><pre><span></span><code>sudo nano /etc/systemd/system/gunicorn.service
-</code></pre></div>
+<pre><code>sudo nano /etc/systemd/system/gunicorn.service
+</code></pre>
 
 <p>Type in the following.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="o">[</span>Unit<span class="o">]</span>
-<span class="nv">Description</span><span class="o">=</span>gunicorn service
-<span class="nv">After</span><span class="o">=</span>network.target
+<pre><code>[Unit]
+Description=gunicorn service
+After=network.target
 
-<span class="o">[</span>Service<span class="o">]</span>
-<span class="nv">User</span><span class="o">=</span>username
-<span class="nv">Group</span><span class="o">=</span>www-data
-<span class="nv">WorkingDirectory</span><span class="o">=</span>/home/path/to/project/
-<span class="nv">ExecStart</span><span class="o">=</span>/home/path/to/project/env/bin/gunicorn --access-logfile - --workers <span class="m">3</span> --bind unix:/home/path/to/project/project.sock PROJECT.wsgi:application
+[Service]
+User=username
+Group=www-data
+WorkingDirectory=/home/path/to/project/
+ExecStart=/home/path/to/project/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/path/to/project/project.sock PROJECT.wsgi:application
 
-<span class="o">[</span>Install<span class="o">]</span>
-<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
-</code></pre></div>
+[Install]
+WantedBy=multi-user.target
+</code></pre>
 
 <p>Turn on Gunicorn service.</p>
 
-<div class="codehilite"><pre><span></span><code>sudo systemctl <span class="nb">enable</span> gunicorn.service
+<pre><code>sudo systemctl enable gunicorn.service
 sudo systemctl start gunicorn.service
 sudo systemctl status gunicorn.service
 ​
-<span class="c1"># check any errors with</span>
+# check any errors with
 journalctl -u gunicorn
-</code></pre></div>
+</code></pre>
 
 <h2>Setup NGINX</h2>
 
@@ -342,88 +342,88 @@ journalctl -u gunicorn
 
 <p>Install NGINX</p>
 
-<div class="codehilite"><pre><span></span><code>$ sudo apt-get install nginx ufw
-</code></pre></div>
+<pre><code>$ sudo apt-get install nginx ufw
+</code></pre>
 
 <p>First create a config file telling NGINX what sites are available. Run this, where prjoect is your project name. </p>
 
-<div class="codehilite"><pre><span></span><code>sudo nano /etc/nginx/sites-available/project
+<pre><code>sudo nano /etc/nginx/sites-available/project
 
-<span class="c1"># add this to the file</span>
-<span class="c1"># 1. port number</span>
-<span class="c1"># 2. server ip or dns</span>
-<span class="c1"># 3. turn off error logging for favicon</span>
-<span class="c1"># 4. static location</span>
-<span class="c1">#    this is setup so any path beginning with static will go here.</span>
-<span class="c1">#    turn on autoindex if you want uses to be able to browse paths.</span>
-<span class="c1"># 5. all other locations. path to sock must match Gunicorn&#39;s path. file is auto created.</span>
+# add this to the file
+# 1. port number
+# 2. server ip or dns
+# 3. turn off error logging for favicon
+# 4. static location
+#    this is setup so any path beginning with static will go here.
+#    turn on autoindex if you want uses to be able to browse paths.
+# 5. all other locations. path to sock must match Gunicorn's path. file is auto created.
 
 
-server <span class="o">{</span>
-    listen <span class="m">80</span><span class="p">;</span>
-    server_name ipaddress webaddresses<span class="p">;</span>
-    <span class="nv">location</span> <span class="o">=</span> /favicon.icon <span class="o">{</span>access_log off<span class="p">;</span> log_not_found off<span class="p">;</span><span class="o">}</span>
+server {
+    listen 80;
+    server_name ipaddress webaddresses;
+    location = /favicon.icon {access_log off; log_not_found off;}
 
-    root /home/path/to/project/project<span class="p">;</span>
+    root /home/path/to/project/project;
 
-    location ~ ^/static/<span class="o">(</span>.*<span class="o">)</span>$ <span class="o">{</span>
-        autoindex off<span class="p">;</span>
-    <span class="o">}</span>
+    location ~ ^/static/(.*)$ {
+        autoindex off;
+    }
 
-    location / <span class="o">{</span>
-        include proxy_params<span class="p">;</span>
-        proxy_pass http://unix:/home/path/to/project/project.sock<span class="p">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div>
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/path/to/project/project.sock;
+    }
+}
+</code></pre>
 
 <p>Enable site with NGINX and text it.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># enable site</span>
+<pre><code># enable site
 sudo ln -s /etc/nginx/sites-available/project /etc/nginx/sites-enabled
-<span class="c1"># test configuration</span>
+# test configuration
 sudo nginx -t
 
-<span class="c1"># finally, restart nginx</span>
+# finally, restart nginx
 sudo systemctl restart nginx
-<span class="c1"># check nginx status</span>
+# check nginx status
 systemctl status nginx.service
-</code></pre></div>
+</code></pre>
 
 <p>Allow NGINX to come througth the firewall.</p>
 
-<div class="codehilite"><pre><span></span><code>sudo ufw delete allow <span class="m">8800</span>
-sudo ufw allow <span class="s1">&#39;Nginx Full&#39;</span>
-</code></pre></div>
+<pre><code>sudo ufw delete allow 8800
+sudo ufw allow 'Nginx Full'
+</code></pre>
 
 <p>Run 'sudo ifconfig' to get the ip address of the server. You can now navigate to that in a browser and should find your django application running.</p>
 
 <h2>a few trouble shooting tips</h2>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># Check that your site is in the sites avialable list</span>
+<pre><code># Check that your site is in the sites avialable list
 sudo ls /etc/nginx/sites-available
 
-<span class="c1"># Check that your site is in the sites enabled list</span>
+# Check that your site is in the sites enabled list
 sudo ls /etc/nginx/sites-enabled
 
-<span class="c1"># still not working? check the server name. try copying from the default.</span>
+# still not working? check the server name. try copying from the default.
 
-<span class="c1"># check the nginx error log?</span>
+# check the nginx error log?
 sudo tail -30 /var/log/nginx/error.log
-</code></pre></div>
+</code></pre>
 
 <p>After making changes be sure and get stuff reloaded.</p>
 
-<div class="codehilite"><pre><span></span><code>sudo systemctl daemon-reload
+<pre><code>sudo systemctl daemon-reload
 sudo systemctl start gunicorn
-sudo systemctl <span class="nb">enable</span> gunicorn
+sudo systemctl enable gunicorn
 sudo systemctl restart nginx
-<span class="c1"># or </span>
-<span class="c1"># for static file changes</span>
-sudo service nginx reload <span class="c1"># or restart</span>
-<span class="c1"># for dynamic file changes</span>
-sudo service gunicorn reload <span class="c1"># or restart</span>
-</code></pre></div>
+# or 
+# for static file changes
+sudo service nginx reload # or restart
+# for dynamic file changes
+sudo service gunicorn reload # or restart
+</code></pre>
 
                                         
                                     </section>
