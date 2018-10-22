@@ -456,7 +456,21 @@ do
 done
 </code></pre>
 
+<p>The script can then be run -</p>
+
+<pre><code>./converter.sh
+</code></pre>
+
 <h3>Make the Script AutoStart on Reboot</h3>
+
+<p>Finally, the script needs to be added to the startup stuff to auto run when the server restarts.</p>
+
+<pre><code># open task manager as root
+sudo crontab -e
+
+# add this
+@reboot /path/to/converter.sh
+</code></pre>
 
                                         
                                     </section>
