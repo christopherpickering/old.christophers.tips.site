@@ -486,18 +486,18 @@ grep cron /var/log/syslog
 
 </code></pre>
 
-<p>Other option:</p>
+<p>Other option for old versions of ubunut:</p>
 
-<p>```sh
-touch /etc/init/converter.conf
-nano /etc/init/converter.conf</p>
+<pre><code>touch /etc/init/converter.conf
+nano /etc/init/converter.conf
 
-<h1>add this text</h1>
+# add this text
 
-<p>description "converter"
+description "converter"
 start on startup
 task
-exec path/to/converter.sh</p>
+exec path/to/converter.sh
+</code></pre>
 
                                         
                                     </section>
