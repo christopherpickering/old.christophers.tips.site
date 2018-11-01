@@ -102,154 +102,47 @@
                 <div class="page-wrapper" tabindex="-1" role="main">
                     <div class="page-inner">
                         <section class="normal markdown-section">
-                            <h1>Getting Started</h1>
+                            <h1>How to Install CX_Oracle on Mac</h1>
 
-<h2>Setup Git</h2>
+<p><a href="https://cx-oracle.readthedocs.io/en/latest/installation.html#install-using-github">Official Docs</a></p>
 
-<pre><code>git config user.name "Firstname Lastname"
-git config user.email "email@email.com"
+<h2>Install Python</h2>
+
+<p>CX Oracle will not work with the mac bundled python. Install python with homebrew.</p>
+
+<pre><code>brew install python3
+pip3 install virtualenv
 </code></pre>
 
-<p>Initialize a get repo</p>
+<p>Next install CX_Oracle for python. If it will be used in a virtual env, create that first.</p>
 
-<pre><code>git init
+<pre><code># create virtual env
+python3 -m virtualenv venv
+
+# install cx oracle
+pip install cx_Oracle
 </code></pre>
 
-<p>Create a .gitignore file to keep unneeded or confidential information from the repository.</p>
+<h2>Install Oracle Client</h2>
 
-<pre><code>touch .gitignore
+<p>Download <a href="http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html">Oracle Client basic.</a></p>
+
+<p>Unzip it into the final directory.</p>
+
+<pre><code>sudo mkdir -p /opt/oracle
 </code></pre>
 
-<p>Alternativly you can pre-create one here https://www.gitignore.io, or copy and past into the .gitignore.</p>
+<p>Move the unzipped download into that folder.</p>
 
-<hr />
+<p>Add links to the /lib folder to make cx_oracle accessable.</p>
 
-<h1>Add Content</h1>
-
-<h2>From GitHub</h2>
-
-<p>If the project already exists on GitHub and you plan to contribute it can be pulled.</p>
-
-<pre><code>git remote add origin https://github.com/username/project_name.git
-git pull
+<pre><code>mkdir ~/lib
+ln -s /opt/oracle/instantclient_12_2/libclntsh.dylib.12.1 ~/lib/
 </code></pre>
 
-<p>To take a copy of the code for your own use</p>
+<p>Create the folder for the tnsnames.ora file.</p>
 
-<pre><code>git clone https://github.com/username/project_name.git
-</code></pre>
-
-<h2>Create Branch</h2>
-
-<p>Run this command to get a list of branches and the current branch.</p>
-
-<pre><code>git branch 
-</code></pre>
-
-<p>To create a new branch</p>
-
-<pre><code>git branch &lt;my_new_branch&gt;
-</code></pre>
-
-<p>To change current working branch</p>
-
-<pre><code>git checkout &lt;my_branch&gt;
-</code></pre>
-
-<p>Create the branch from GitHub locally and switch to it</p>
-
-<pre><code>git checkout -b &lt;my_branch&gt;
-</code></pre>
-
-<p>Update a branch if the remote has changed</p>
-
-<pre><code>git fetch origin
-</code></pre>
-
-<p>Merge a branch back to master</p>
-
-<pre><code>git checkout master
-git merge &lt;my_branch&gt;
-</code></pre>
-
-<p>To delete a branch</p>
-
-<pre><code>git branch -d 
-</code></pre>
-
-<p>To reset a branch to master</p>
-
-<pre><code>git reset --hard master
-</code></pre>
-
-<p>Want to get a file from another branch? Checkout the branch you want to copy the file(s) too. Then checkout the files from the source branch. Don't forget to commit when finished adding files.</p>
-
-<pre><code>git checkout &lt;destination_branch&gt;
-git checkout &lt;source_branch&gt; &lt;paths&gt;
-git commit -a -m "added a couple files from the other branch"
-</code></pre>
-
-<h1>Commit Code</h1>
-
-<h2>To Git</h2>
-
-<p>Run these commands to commit latest changes.</p>
-
-<pre><code>git add .
-git commit -m 'comment about latest changes'
-</code></pre>
-
-<p>Or more condensed</p>
-
-<pre><code>git commit -a -m 'comment about latest changes'
-</code></pre>
-
-<h2>To GitHub</h2>
-
-<p>Add GitHub as a remote</p>
-
-<pre><code>git remote add origin https://github.com/username/project_name.git
-</code></pre>
-
-<p>If you want to change remote or had a spelling mistake (opps)</p>
-
-<pre><code>git remote rm origin
-git remote add origin https://github.com/username/project_name.git
-
-# to see what the remote is... incase you forgot :)
-git remote -v
-</code></pre>
-
-<p>Push to remote</p>
-
-<pre><code>git push origin &lt;branch name&gt;
-# if you need to force the update..
-git push origin &lt;branch name&gt; --force
-</code></pre>
-
-<h2>Removing files that are in .gitignore</h2>
-
-<p>To see files that are not excluded by .gitignore</p>
-
-<pre><code>git ls-files -ci --exclude-standard
-</code></pre>
-
-<p>To remove excluded files from commit</p>
-
-<pre><code>git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached
-</code></pre>
-
-<p>Create Alias for this command so you can run 'git apply-gitignore' to fix any commit that missed updates in gitignore.</p>
-
-<pre><code># change editor to nano
-git config --global core.editor "nano"
-
-# edit file
-git config --global --edit
-
-# add following text
-[alias]
-   apply-gitignore = !git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached 
+<pre><code>mkdir -p /opt/oracle/instantclient_12_2/network/admin
 </code></pre>
 
                         </section>

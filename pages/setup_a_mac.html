@@ -102,155 +102,76 @@
                 <div class="page-wrapper" tabindex="-1" role="main">
                     <div class="page-inner">
                         <section class="normal markdown-section">
-                            <h1>Getting Started</h1>
+                            <h1>Setting Up a Mac</h1>
 
-<h2>Setup Git</h2>
+<h2>Sublime Text</h2>
 
-<pre><code>git config user.name "Firstname Lastname"
-git config user.email "email@email.com"
+<h3>Useful packages</h3>
+
+<ul>
+<li>Virtualenv</li>
+<li>HTMLBeautify</li>
+<li>SideBarEnhancements</li>
+</ul>
+
+<h2>Terminal</h2>
+
+<p>Nice color scheme - http://color.smyck.org</p>
+
+<h2>Safari DNS</h2>
+
+<p>https://cleanbrowsing.org/filters</p>
+
+<h2>Keymapping</h2>
+
+<p>Somehow the home and end buttons on the apple keyboard don't go to the right place :)</p>
+
+<p>This will fix it -</p>
+
+<pre><code># create/edit the key bindings file
+cd ~/Library
+mkdir KeyBindings
+sudo nano ~/Library/KeyBindings/DefaultKeyBinding.Dict
+
+# paste in and save. You will need to restart your mac
+{
+    "\UF729"  = moveToBeginningOfParagraph:; // home
+    "\UF72B"  = moveToEndOfParagraph:; // end
+    "$\UF729" = moveToBeginningOfParagraphAndModifySelection:; // shift-home
+    "$\UF72B" = moveToEndOfParagraphAndModifySelection:; // shift-end
+    "^\UF729" = moveToBeginningOfDocument:; // ctrl-home
+    "^\UF72B" = moveToEndOfDocument:; // ctrl-end
+    "^$\UF729" = moveToBeginningOfDocumentAndModifySelection:; // ctrl-shift-home
+    "^$\UF72B" = moveToEndOfDocumentAndModifySelection:; // ctrl-shift-end
+    "$\U007F" = deleteWordBackward:;
+}
 </code></pre>
 
-<p>Initialize a get repo</p>
+<p>More options can be found in <a href="https://gist.github.com/christopherpickering/d646f1ba175336852e6c0d96bf243c21">this gist</a></p>
 
-<pre><code>git init
-</code></pre>
+<h2>Using Oracle EBS</h2>
 
-<p>Create a .gitignore file to keep unneeded or confidential information from the repository.</p>
+<h3>Install Firefox</h3>
 
-<pre><code>touch .gitignore
-</code></pre>
+<p>Firefox 52 is the last version working with Oracle EBS Forms. Download it <a href="https://ftp.mozilla.org/pub/firefox/releases/52.9.0esr/">here.</a></p>
 
-<p>Alternativly you can pre-create one here https://www.gitignore.io, or copy and past into the .gitignore.</p>
+<h3>Install Java</h3>
 
-<hr />
+<p>The latest version of java is currently working well. You can download <a href="https://java.com/en/download/mac_download.jsp">here.</a></p>
 
-<h1>Add Content</h1>
+<h3>Change settings in Java Control Panel</h3>
 
-<h2>From GitHub</h2>
+<p>EBS Forms needs to be allowed as a safe site in Java.</p>
 
-<p>If the project already exists on GitHub and you plan to contribute it can be pulled.</p>
+<ol>
+<li>On the mac open System Preferences &gt; Java.</li>
+<li>In Java Control Panel Security Tab &gt; Edit Site List.</li>
+<li>Add in the root of your ebs system. Example: http://ebs.domain.com</li>
+</ol>
 
-<pre><code>git remote add origin https://github.com/username/project_name.git
-git pull
-</code></pre>
+<h3>First Use</h3>
 
-<p>To take a copy of the code for your own use</p>
-
-<pre><code>git clone https://github.com/username/project_name.git
-</code></pre>
-
-<h2>Create Branch</h2>
-
-<p>Run this command to get a list of branches and the current branch.</p>
-
-<pre><code>git branch 
-</code></pre>
-
-<p>To create a new branch</p>
-
-<pre><code>git branch &lt;my_new_branch&gt;
-</code></pre>
-
-<p>To change current working branch</p>
-
-<pre><code>git checkout &lt;my_branch&gt;
-</code></pre>
-
-<p>Create the branch from GitHub locally and switch to it</p>
-
-<pre><code>git checkout -b &lt;my_branch&gt;
-</code></pre>
-
-<p>Update a branch if the remote has changed</p>
-
-<pre><code>git fetch origin
-</code></pre>
-
-<p>Merge a branch back to master</p>
-
-<pre><code>git checkout master
-git merge &lt;my_branch&gt;
-</code></pre>
-
-<p>To delete a branch</p>
-
-<pre><code>git branch -d 
-</code></pre>
-
-<p>To reset a branch to master</p>
-
-<pre><code>git reset --hard master
-</code></pre>
-
-<p>Want to get a file from another branch? Checkout the branch you want to copy the file(s) too. Then checkout the files from the source branch. Don't forget to commit when finished adding files.</p>
-
-<pre><code>git checkout &lt;destination_branch&gt;
-git checkout &lt;source_branch&gt; &lt;paths&gt;
-git commit -a -m "added a couple files from the other branch"
-</code></pre>
-
-<h1>Commit Code</h1>
-
-<h2>To Git</h2>
-
-<p>Run these commands to commit latest changes.</p>
-
-<pre><code>git add .
-git commit -m 'comment about latest changes'
-</code></pre>
-
-<p>Or more condensed</p>
-
-<pre><code>git commit -a -m 'comment about latest changes'
-</code></pre>
-
-<h2>To GitHub</h2>
-
-<p>Add GitHub as a remote</p>
-
-<pre><code>git remote add origin https://github.com/username/project_name.git
-</code></pre>
-
-<p>If you want to change remote or had a spelling mistake (opps)</p>
-
-<pre><code>git remote rm origin
-git remote add origin https://github.com/username/project_name.git
-
-# to see what the remote is... incase you forgot :)
-git remote -v
-</code></pre>
-
-<p>Push to remote</p>
-
-<pre><code>git push origin &lt;branch name&gt;
-# if you need to force the update..
-git push origin &lt;branch name&gt; --force
-</code></pre>
-
-<h2>Removing files that are in .gitignore</h2>
-
-<p>To see files that are not excluded by .gitignore</p>
-
-<pre><code>git ls-files -ci --exclude-standard
-</code></pre>
-
-<p>To remove excluded files from commit</p>
-
-<pre><code>git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached
-</code></pre>
-
-<p>Create Alias for this command so you can run 'git apply-gitignore' to fix any commit that missed updates in gitignore.</p>
-
-<pre><code># change editor to nano
-git config --global core.editor "nano"
-
-# edit file
-git config --global --edit
-
-# add following text
-[alias]
-   apply-gitignore = !git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached 
-</code></pre>
+<p>On the first use when logging in in Firefox click "activate java" when prompted, and then allow popups when prompted.</p>
 
                         </section>
                     </div>
