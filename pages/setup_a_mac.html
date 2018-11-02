@@ -173,6 +173,25 @@ sudo nano ~/Library/KeyBindings/DefaultKeyBinding.Dict
 
 <p>On the first use when logging in in Firefox click "activate java" when prompted, and then allow popups when prompted.</p>
 
+<h2>Terminal Alias</h2>
+
+<p>If you are typing the same phrase in terminal over and over and over it may be handy to create an alias name..</p>
+
+<pre><code># edit bash profile
+nano ~/.bash_profile
+
+# add in the alias
+
+# Aliases - remember no spaces at equals sign
+alias act="source venv/bin/activate"
+alias dact="deactivate"
+alias ip="ifconfig | grep 'inet '"
+alias gc="git add . &amp;&amp; git commit -m "
+# save
+# restart terminal or reload
+source ~/.bash_profile
+</code></pre>
+
                         </section>
                     </div>
                 </div>                     
