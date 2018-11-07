@@ -192,6 +192,18 @@ alias gc="git add . &amp;&amp; git commit -m "
 source ~/.bash_profile
 </code></pre>
 
+<h2>UTF-8 Error when running python 3scripts from terminal, or through venv in Sublime</h2>
+
+<p>Edit your bash profiel to include these two lines -</p>
+
+<pre><code># edit file
+nano ~/.bash_profile
+
+# add these lines and save.
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+</code></pre>
+
                         </section>
                     </div>
                 </div>                     
