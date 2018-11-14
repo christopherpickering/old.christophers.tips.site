@@ -46,7 +46,7 @@
             <div class="accordion-content ">
             
             
-                <li class="chapter  ">
+                <li class="chapter   active">
                     <a href="/pages/make_this_site.html">Make this Site</a>
                 </li>
            
@@ -136,25 +136,138 @@
                 <div class="page-wrapper" tabindex="-1" role="main">
                     <div class="page-inner">
                         <section class="normal markdown-section">
-                            <h1>Hi, I'm Christopher Pickering</h1>
+                            <h1>How To Make This Site</h1>
 
-<p>I'm a believer in Jesus Christ and an engineer. I love my family, learning, building things, and solving hard problems.</p>
+<p>This site can be made in a few simple steps -
+* Install and create a Gitbook
+* Customize Gitbook with a theme
+* Push Gitbook to Github repo
+* Register a domain with Google
+* Add CNAME records</p>
 
-<h2>What I do</h2>
+<h2>Install and Create a Gitbook</h2>
 
-<p>I work for <a href="www.bimba.com">Bimba</a> during the day. Most of my time is spent creating solutions and simplifying tasks with python programming and doing data collection, reporting and analysis.  </p>
+<p>If you do not have npm installed you will need to do that first.</p>
 
-<p>When other time is available I chip in at <a href="www.dayspringbibles.com">Dayspring Bibles</a> doing scripting, typesetting and other fun things.</p>
+<pre><code>brew intall npm
+npm install -g gitbook-cli
+gitbook update
+</code></pre>
 
-<h2>This Site</h2>
+<p>Next create two directories, one for the Gitbook MD files and the other for the static site that will be generated. Gitbook will generate the static site inside the MD file but we'll need to move it to the other direcory when pushing to Github.</p>
 
-<p>This is a static html site built with markdown and compiled with python. You can learn how to make it <a href="/pages/make_this_site.html">here</a>. I've found that most of the time used on projects is spent finding a simple problem. The purpose of this site is to save the little solutions for next time :)</p>
+<pre><code>mkdir documentation
+cd documentation
+mkdir site
+mkdir gitbook
+</code></pre>
 
-<p><strong>Thanks for visiting.</strong></p>
+<p>Next both directories need to have a git repo intialized. Go to Github.com and make a repo for you MD files with any name you like. Make another repo named myusername.gitbook.io.</p>
+
+<pre><code>cd gitbook
+git init
+touch .gitignore
+
+# you need to add _book to the .gitignore so you do not duplate on github
+nano .gitignore
+_book
+# control + x then y to save
+
+git remote add origin https//github.com/myusername/myrepo.git
+
+cd ../site
+git init
+git clone https://github.com/christopherpickering/christopherpickering.github.io.git
+mv christopherpickering.github.io/* .
+rm -Rf christopherpickering.github.io
+git remote add origin https://github.com/myusername/myusername.gitbook.io.git
+</code></pre>
+
+<p>Next create the gitbook.</p>
+
+<pre><code>gitbook init
+</code></pre>
+
+<p>[Gitbook Documentation] is available.</p>
+
+<h2>Create a Gitbook Theme</h2>
+
+<p>By default any theming we do will extend the default. Create the following structure for themes.</p>
+
+<pre><code>cd gitbook
+mkdir _layouts
+cd _layouts
+mkdir websites
+cd websites
+# any page tweaks will be here
+touch page.html
+# any page header tweaks will be here
+touch header.html
+</code></pre>
+
+<p>Copy any theme sections you need to change from the [default theme].
+<a href="https://github.com/GitbookIO/theme-api">example theme 1</a>
+[example theme 3]</p>
+
+<h2>Push Gitbook to Github Repo</h2>
+
+<p>A few bash scripts are created to make doing updates simple.</p>
+
+<ul>
+<li>build.bash -this script will only build the static site locally. </li>
+<li>push.bash -this script will push any changes in both repos to Github.</li>
+<li>build<em>and</em>push.bash -this script bill build the site and push udpates to Github.</li>
+</ul>
+
+<p>You will most likely need to give yourself permission to run the scripts.</p>
+
+<pre><code>sudo chmod 700 build.bash
+sudo chmod 700 push.bash
+sudo chmod 700 build_and_push.bash
+sudo chmod 700 pull.bash
+
+./build_and_push.bash
+</code></pre>
+
+<h2>Register a Domain With Google</h2>
+
+<p>Navigate to <a href="domains.google.com">domains.google.com</a> and register a domain. Got to the DNS tab and add in the CNAME information.</p>
+
+<p><img src="/static/img/make_this_site-CNAME.png" alt="CNAME" /></p>
+
+<h2>Add CNAME Records to your project</h2>
+
+<pre><code>cd ../site
+touch CNAME
+nano CNAME
+</code></pre>
+
+<p>Add two lines to the CNAME file</p>
+
+<pre><code>mysite.com
+www.mysite.com
+</code></pre>
+
+<p>Finally, build and push the site.</p>
+
+<pre><code># to build and push to github
+./build_and_push.bash 'optonal commit message'
+
+# to just build for testing
+./build.bash
+
+# to pull latest updates from github
+./pull.bash
+
+# to push latest updates to github
+./push.bash 'optional commit message'
+</code></pre>
+
+<p>Nice! You will be able to see you site now at mysite.com!</p>
 
                             <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                 <span style="font-size: 90%;float: left;">
-                                    <small>Last updated November 9,2018</small>
+                                    <small>Last updated October 22,2018</small>
                                 </span>
                                 <span style="float: right;">
                                     <i class="fab fa-github" style="padding-right: 20px;"></i>
