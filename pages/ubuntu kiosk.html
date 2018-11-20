@@ -128,47 +128,86 @@
                         <div class="page-inner">
                             <section class="normal markdown-section">
                                 <h1>
-                                    Hi, I'm Christopher Pickering
+                                    Create a Basic Ubuntu Web Kiosk
+                                </h1>
+                                <h3>
+                                    Install Latest UBUNTU
+                                </h3>
+                                <h1>
+                                    Choose Option for Light Install
+                                </h1>
+                                <h1>
+                                    Create user "kiosk"
                                 </h1>
                                 <p>
-                                    I'm a believer in Jesus Christ and an engineer. I love my family, learning, building things, and solving hard problems.
-                                </p>
-                                <h2>
-                                    What I do
-                                </h2>
-                                <p>
-                                    I work for
-                                    <a href="www.bimba.com">
-                                        Bimba
-                                    </a>
-                                    during the day. Most of my time is spent creating solutions and simplifying tasks with python programming and doing data collection, reporting and analysis.
+                                    Set auto login to true
+Set user to have no password
                                 </p>
                                 <p>
-                                    When other time is available I chip in at
-                                    <a href="www.dayspringbibles.com">
-                                        Dayspring Bibles
-                                    </a>
-                                    doing scripting, typesetting and other fun things.
+                                    sudo passwd -d 'kiosk'
                                 </p>
-                                <h2>
-                                    This Site
-                                </h2>
+                                <h1>
+                                    Create firefox startup script
+                                </h1>
+                                <pre><code>nano ~/Desktop/firefox.sh
+
+</code></pre>
+                                <pre><code>MOZ_USE_XINPUT2=1 /usr/bin/firefox
+</code></pre>
                                 <p>
-                                    This is a static html site built with markdown and compiled with python. You can learn how to make it
-                                    <a href="/pages/make_this_site.html">
-                                        here
-                                    </a>
-                                    . I've found that most of the time used on projects is spent finding a simple problem. The purpose of this site is to save the little solutions for next time :)
+                                    Change permissions to be able to run as non sudo
+                                </p>
+                                <pre><code>chmod 777 ~/Desktop/firefox.sh
+</code></pre>
+                                <p>
+                                    Search start menu for startup applications.
+Add
+                                    <code>
+                                        ~/Desktop/firefox.sh
+                                    </code>
+                                </p>
+                                <h1>
+                                    Change Firefox settings
+                                </h1>
+                                <p>
+                                    Change homepage to http://backoffice/
                                 </p>
                                 <p>
-                                    <strong>
-                                        Thanks for visiting.
-                                    </strong>
+                                    Turn off all homepage features
+Install AutoFullscreen extension to put firefox in full screen mode when opened.
+                                </p>
+                                <h1>
+                                    Change PDF Settings
+                                </h1>
+                                <p>
+                                    go to url about:config
+                                </p>
+                                <p>
+                                    search for pdf
+                                </p>
+                                <p>
+                                    change "cursorToolOnLoad" to 1
+change "disablePageMode" to true
+change "sidebarViewOnLoad" to 4
+                                </p>
+                                <h1>
+                                    Turn on On Screen Keybaord
+                                </h1>
+                                <p>
+                                    Settings &gt; Universal Access &gt; Screen Keyboard &gt; On
+                                </p>
+                                <h1>
+                                    Turn off Screen Saver
+                                </h1>
+                                <p>
+                                    Settings &gt; Power &gt; Blank Screen &gt; Never
+Automatic Suspend &gt; Off
+Bluetooth Off
                                 </p>
                                 <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                     <span style="font-size: 90%;float: left;">
                                         <small>
-                                            Last updated November 9,2018
+                                            Last updated November 19,2018
                                         </small>
                                     </span>
                                     <span style="float: right;">
