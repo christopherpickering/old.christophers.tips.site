@@ -568,14 +568,14 @@ sudo nano /etc/rsyslog.d/50-default.conf
 
 # restart rsyslog and cron
 sudo service rsyslog restart
-service cron restart
+sudo service cron restart
 
 # view log
-more /var/log/cron.log
+sudo more /var/log/cron.log
 # or 
-grep cron /var/log/syslog
+sudo grep cron /var/log/syslog
 # or
-tail -30 /var/log/cron.log
+sudo tail -30 /var/log/cron.log
 
 </code></pre>
                                 <p>
@@ -594,7 +594,7 @@ exec path/to/converter.sh
                                 <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                     <span style="font-size: 90%;float: left;">
                                         <small>
-                                            Last updated November 14,2018
+                                            Last updated November 20,2018
                                         </small>
                                     </span>
                                     <span style="float: right;">
