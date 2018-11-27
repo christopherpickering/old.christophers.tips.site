@@ -323,8 +323,12 @@ Search start menu for startup applications and add
                                 </p>
                                 <p>
                                     change "cursorToolOnLoad" to 1
-change "disablePageMode" to true
-change "sidebarViewOnLoad" to 4
+                                </p>
+                                <p>
+                                    change "disablePageMode" to true
+                                </p>
+                                <p>
+                                    change "sidebarViewOnLoad" to 4
                                 </p>
                                 <h2>
                                     Other Settings
@@ -340,8 +344,12 @@ change "sidebarViewOnLoad" to 4
                                 </h3>
                                 <p>
                                     Settings &gt; Power &gt; Blank Screen &gt; Never
-Automatic Suspend &gt; Off
-Bluetooth Off
+                                </p>
+                                <p>
+                                    Automatic Suspend &gt; Off
+                                </p>
+                                <p>
+                                    Bluetooth Off
                                 </p>
                                 <h3>
                                     Turn off Notifications
@@ -366,6 +374,43 @@ Bluetooth Off
 # save and then restart cron
 sudo service cron restart
 </code></pre>
+                                <h2>
+                                    Enable Remote Access
+                                </h2>
+                                <p>
+                                    Because we installed the basic UBUNTU the package we need was not installed. Install now.
+                                </p>
+                                <pre><code>sudo apt install -y vino
+</code></pre>
+                                <ol>
+                                    <li>
+                                        Settings &gt; Sharing &gt; Turn On
+                                    </li>
+                                    <li>
+                                        Turn on screen sharing
+                                    </li>
+                                    <li>
+                                        Add a password
+                                    </li>
+                                </ol>
+                                <p>
+                                    Stop encryption
+                                </p>
+                                <pre><code>sudo gsettings set org.gnome.Vino require-encryption false
+</code></pre>
+                                <p>
+                                    Other possible helps
+                                </p>
+                                <pre><code>sudo apt-get install dconf-tools
+</code></pre>
+                                <p>
+                                    Open dconf. Navigate to org &gt; gnome &gt; desktop &gt; remote-access
+* Turnn of require encription
+* chang auth method to vnc
+                                </p>
+                                <p>
+                                    Restart for changes to work.
+                                </p>
                                 <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                     <span style="font-size: 90%;float: left;">
                                         <small>
