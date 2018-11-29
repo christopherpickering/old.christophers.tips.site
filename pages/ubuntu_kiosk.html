@@ -263,6 +263,66 @@ sudo nano /etc/default/grub
 # finally, run grub update
 sudo update-grub
 </code></pre>
+                                <h3>
+                                    Reboot Every Night
+                                </h3>
+                                <p>
+                                    We would like the PC to reboot daily. This must be done on the admin account.
+                                </p>
+                                <p>
+                                    Add an entry to crontab:
+                                </p>
+                                <pre><code>sudo crontab -e
+
+# every day at 2 am
+0 2 * * * /sbin/shutdown -r now 
+
+# save and then restart cron
+sudo service cron restart
+</code></pre>
+                                <h2>
+                                    Enable Remote Access
+                                </h2>
+                                <p>
+                                    Because we installed the basic UBUNTU the package we need was not installed. Install now.
+                                </p>
+                                <pre><code>sudo apt install -y vino
+</code></pre>
+                                <p>
+                                    These steps must be done on the kiosk user, not admin.
+                                </p>
+                                <ol>
+                                    <li>
+                                        Settings &gt; Sharing &gt; Turn On
+                                    </li>
+                                    <li>
+                                        Turn on screen sharing
+                                    </li>
+                                    <li>
+                                        Add a password
+                                    </li>
+                                </ol>
+                                <p>
+                                    Stop encryption
+                                </p>
+                                <pre><code>sudo gsettings set org.gnome.Vino require-encryption false
+</code></pre>
+                                <p>
+                                    Other possible helps
+                                </p>
+                                <pre><code>sudo apt-get install dconf-tools
+</code></pre>
+                                <p>
+                                    These steps must be done as the kiosk user, not admin.
+                                </p>
+                                <p>
+                                    Open dconf. Navigate to org &gt; gnome &gt; desktop &gt; remote-access
+* Turnn of require encription
+* chang auth method to vnc
+                                </p>
+                                <p>
+                                    Restart for changes to work.
+                                </p>
                                 <h2>
                                     Create firefox startup script
                                 </h2>
@@ -355,64 +415,10 @@ Search start menu for startup applications and add
                                 <p>
                                     Settings &gt; Notifications &gt; Off
                                 </p>
-                                <h3>
-                                    Reboot Every Night
-                                </h3>
-                                <p>
-                                    We would like the PC to reboot daily. This must be done on the admin account.
-                                </p>
-                                <p>
-                                    Add an entry to crontab:
-                                </p>
-                                <pre><code>sudo crontab -e
-
-# every day at 2 am
-0 2 * * * /sbin/shutdown -r now 
-
-# save and then restart cron
-sudo service cron restart
-</code></pre>
-                                <h2>
-                                    Enable Remote Access
-                                </h2>
-                                <p>
-                                    Because we installed the basic UBUNTU the package we need was not installed. Install now.
-                                </p>
-                                <pre><code>sudo apt install -y vino
-</code></pre>
-                                <ol>
-                                    <li>
-                                        Settings &gt; Sharing &gt; Turn On
-                                    </li>
-                                    <li>
-                                        Turn on screen sharing
-                                    </li>
-                                    <li>
-                                        Add a password
-                                    </li>
-                                </ol>
-                                <p>
-                                    Stop encryption
-                                </p>
-                                <pre><code>sudo gsettings set org.gnome.Vino require-encryption false
-</code></pre>
-                                <p>
-                                    Other possible helps
-                                </p>
-                                <pre><code>sudo apt-get install dconf-tools
-</code></pre>
-                                <p>
-                                    Open dconf. Navigate to org &gt; gnome &gt; desktop &gt; remote-access
-* Turnn of require encription
-* chang auth method to vnc
-                                </p>
-                                <p>
-                                    Restart for changes to work.
-                                </p>
                                 <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                     <span style="font-size: 90%;float: left;">
                                         <small>
-                                            Last updated November 27,2018
+                                            Last updated November 29,2018
                                         </small>
                                     </span>
                                     <span style="float: right;">
