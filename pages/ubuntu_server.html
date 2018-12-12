@@ -483,7 +483,27 @@ sudo ls /etc/nginx/sites-enabled
 
 # check the nginx error log?
 sudo tail -30 /var/log/nginx/error.log
+
+
 </code></pre>
+                                <h3>
+                                    for nginx 502 errors..
+                                </h3>
+                                <p>
+                                    The problem is most likely in a gunicorn error. You can check by manually running the gunicorn wsgi-
+                                </p>
+                                <pre><code>gunicorn --log-file=- appname.wsgi:application
+</code></pre>
+                                <p>
+                                    This should give you any python errors you have.. most likely forgot to install a python module you are importing.
+                                </p>
+                                <p>
+                                    Alternativly run
+                                    <code>
+                                        sh python manage.py runserver
+                                    </code>
+                                    and see the restult.
+                                </p>
                                 <p>
                                     After making changes be sure and get stuff reloaded.
                                 </p>
@@ -597,7 +617,7 @@ exec path/to/converter.sh
                                 <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                     <span style="font-size: 90%;float: left;">
                                         <small>
-                                            Last updated November 20,2018
+                                            Last updated December 12,2018
                                         </small>
                                     </span>
                                     <span style="float: right;">
