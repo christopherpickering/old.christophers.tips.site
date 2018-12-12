@@ -492,7 +492,7 @@ sudo tail -30 /var/log/nginx/error.log
                                 <p>
                                     The problem is most likely in a gunicorn error. You can check by manually running the gunicorn wsgi-
                                 </p>
-                                <pre><code>gunicorn --log-file=- appname.wsgi:application
+                                <pre><code>gunicorn --log-file=- projectname.wsgi:application
 </code></pre>
                                 <p>
                                     This should give you any python errors you have.. most likely forgot to install a python module you are importing.
