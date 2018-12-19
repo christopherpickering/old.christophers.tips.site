@@ -91,7 +91,7 @@
                                 Database Connections
                             </li>
                             <div class="accordion-content default">
-                                <li class="chapter active">
+                                <li class="chapter ">
                                     <a href="/pages/cx_oracle_ubuntu.html">
                                         Ubuntu CX Oracle
                                     </a>
@@ -106,7 +106,7 @@
                                         Mac pyodbc
                                     </a>
                                 </li>
-                                <li class="chapter ">
+                                <li class="chapter active">
                                     <a href="/pages/postgres_db_mac.html">
                                         Mac Postgres
                                     </a>
@@ -136,88 +136,112 @@
                         <div class="page-inner">
                             <section class="normal markdown-section">
                                 <h1>
-                                    Setting Up Cx_Oracle on Linux/Ubuntu
+                                    Moving from MySQL to PostgreSQL on Mac
                                 </h1>
-                                <p>
-                                    <a href="https://cx-oracle.readthedocs.io/en/latest/installation.html">
-                                        Cx_Oracle Docs
-                                    </a>
-                                </p>
                                 <h2>
-                                    Download Instant Client
+                                    Install Postgres with Brew
                                 </h2>
                                 <p>
-                                    On host computer (Mac in this case)
-                                    <a href="https://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.htm">
-                                        donwload
-                                    </a>
-                                    the instant client basic and skd rpn's. Oracle changed the name on sdk's to devel.
+                                    First intall postgres
                                 </p>
+                                <pre><code>brew install postgresql
+</code></pre>
                                 <p>
-                                    oracle-instantclient18.3-basic-18.3.0.0.0-1.x86
-                                    <em>
-                                        64.rpm
-oracle-instantclient18.3-devel-18.3.0.0.0-1.x86
-                                    </em>
-                                    64.rpm
+                                    Allow ps to auto start
                                 </p>
-                                <p>
-                                    Put the files in a known directory. In my case I put the files in ~/Documents/Projects/Oracle
-                                </p>
-                                <h2>
-                                    Move Instant Client files to Server
-                                </h2>
-                                <p>
-                                    Login to the server. Run this command to copy the full Oracle directory with both rpn's from the Mac host to the server.
-On the Mac host don't forget to allow ssh connections. "System Preferences" &gt; "Sharing" &gt; "Remote Login" &gt; "On"
-                                </p>
-                                <pre><code>sudo mkdir /home/Oracle
-sudo scp -r 'username'@'machost':~/Documents/Projects/Oracle /home/
+                                <pre><code>pg_ctl -D /usr/local/var/postgres start &amp;&amp; brew services start postgresql
 </code></pre>
                                 <h2>
-                                    Install Instant Client
+                                    Create Userer and DB
                                 </h2>
-                                <p>
-                                    Use alian to convert both rpn's to deb and install.
-                                </p>
-                                <pre><code>cd /home/Oracle
-sudo apt-get install alien
-sudo alien -i oracle-instantclient18.3-basic-18.3.0.0.0-1.x86_64.rpm
-sudo alien -i oracle-instantclient18.3-devel-18.3.0.0.0-1.x86_64.rpm 
-# uninstall alien if no longer needed
-sudo apt-get purge --auto-remove alien
-sudo rm -rf /home/Oracle
+                                <h3>
+                                    Open ps session
+                                </h3>
+                                <pre><code># if you need to exit at any time, press ctl+d
+psql postgres
 </code></pre>
-                                <p>
-                                    Install the packages needed on Ubuntu
-                                </p>
-                                <pre><code>sudo apt-get install libaio-dev
+                                <h3>
+                                    Create a user
+                                </h3>
+                                <pre><code>CREATE ROLE username WITH LOGIN PASSWORD 'password' ;
+</code></pre>
+                                <h3>
+                                    Add permissions to user
+                                </h3>
+                                <pre><code>ALTER ROLE username CREATEDB;
+</code></pre>
+                                <h3>
+                                    Create a Database
+                                </h3>
+                                <pre><code>CREATE DATABASE databasename;
+</code></pre>
+                                <h3>
+                                    Add Authorized Users to Database
+                                </h3>
+                                <pre><code>GRANT ALL PRIVILEGES ON DATABASE databasename TO username;
 </code></pre>
                                 <h2>
-                                    Change Oracle Settings
+                                    Navigation
                                 </h2>
-                                <p>
-                                    Add oracle to the system path.
-                                </p>
-                                <pre><code>sudo sh -c "echo /usr/lib/oracle/18.3/client64/lib &gt; /etc/ld.so.conf.d/oracle-instantclient.conf"
-sudo ldconfig
-</code></pre>
-                                <p>
-                                    If you plan to use tnsnames.ora you can create the directory here. This is the default location for oracle.
-                                </p>
-                                <pre><code>sudo mkdir -p /usr/lib/oracle/18.3/client64/lib/network/admin
+                                <pre><code># List all database
+\list
 
-# copy tnsnames.ora from Mac host
-sudo scp 'username'@'machost':/opt/oracle/instantclient_12_2/network/admin/tnsnames.ora /usr/lib/oracle/18.3/client64/lib/network/admin
+# Connect to database
+\connect databasename
 
+# List all tables
+\dt
+</code></pre>
+                                <h2>
+                                    Django Setup
+                                </h2>
+                                <p>
+                                    First intall the postgres helper
+                                </p>
+                                <pre><code>pip install psycopg2-binary
 </code></pre>
                                 <p>
-                                    Good luck :)
+                                    Next, add the database to settings.py
+                                </p>
+                                <pre><code>    ,
+                'postgresql': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': 'bdname',
+                'USER': 'username',
+                'PASSWORD': 'pass',
+                'HOST': '127.0.0.1',
+                'PORT': '',
+    } 
+</code></pre>
+                                <p>
+                                    Ensure migrations are up to date
+                                </p>
+                                <pre><code>python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+                                <p>
+                                    Migrate settings to the new database and ensure tables are clear for import.
+                                </p>
+                                <pre><code>python manage.py migrate --database=posgresql
+python manage.py sqlflush --database=postgresql
+</code></pre>
+                                <p>
+                                    Export MySQL database to json.
+                                </p>
+                                <pre><code>python manage.py dumpdata --all --natural --indent=4 &gt; dbname.json
+</code></pre>
+                                <p>
+                                    Import json to Postgres
+                                </p>
+                                <pre><code>python manage.py loaddata dbname.json --database=postgresql
+</code></pre>
+                                <p>
+                                    Finally change the default database in settings.py to the postgress connection.
                                 </p>
                                 <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                     <span style="font-size: 90%;float: left;">
                                         <small>
-                                            Last updated October 22,2018
+                                            Last updated December 19,2018
                                         </small>
                                     </span>
                                     <span class="footer-links">
