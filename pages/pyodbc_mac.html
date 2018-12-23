@@ -90,7 +90,7 @@
                             <li class="header accordion-toggle">
                                 Database Connections
                             </li>
-                            <div class="accordion-content ">
+                            <div class="accordion-content default">
                                 <li class="chapter ">
                                     <a href="/pages/cx_oracle_ubuntu.html">
                                         Ubuntu CX Oracle
@@ -101,7 +101,7 @@
                                         Mac CX Oracle
                                     </a>
                                 </li>
-                                <li class="chapter ">
+                                <li class="chapter active">
                                     <a href="/pages/pyodbc_mac.html">
                                         Mac pyodbc
                                     </a>
@@ -151,47 +151,95 @@
                         <div class="page-inner">
                             <section class="normal markdown-section">
                                 <h1>
-                                    Hi, I'm Christopher Pickering
+                                    Installing Pyodbc on a Mac
                                 </h1>
-                                <p>
-                                    I'm a believer in Jesus Christ and an engineer. I love my family, learning, building things, and solving hard problems.
-                                </p>
                                 <h2>
-                                    What I do
+                                    Install FreeTDS and UnixODBC
+                                </h2>
+                                <h3>
+                                    Install Homebrew
+                                </h3>
+                                <p>
+                                    If homebrew is not installed, get that first.
+                                </p>
+                                <pre><code>/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+</code></pre>
+                                <pre><code>brew install unixodbc
+brew install freetds --with-unixodbc
+</code></pre>
+                                <h2>
+                                    Configure TDS Connection Information
                                 </h2>
                                 <p>
-                                    I work for
-                                    <a href="www.bimba.com">
-                                        Bimba
-                                    </a>
-                                    during the day. Most of my time is spent creating solutions and simplifying tasks with python programming and doing data collection, reporting and analysis.
+                                    Edit the file /usr/local/etc/freetds.conf
                                 </p>
+                                <pre><code>nano /usr/local/etc/freetds.conf
+</code></pre>
                                 <p>
-                                    When other time is available I chip in at
-                                    <a href="www.dayspringbibles.com">
-                                        Dayspring Bibles
-                                    </a>
-                                    doing scripting, typesetting and other fun things.
+                                    Add your connection information to the end.
                                 </p>
+                                <pre><code>[&lt;connection_name&gt;]
+host = &lt;hostname&gt;
+port = &lt;port&gt;
+tds version = 7.0
+</code></pre>
+                                <p>
+                                    Test the new connection with
+                                </p>
+                                <pre><code>tsql -S &lt;connection_name&gt; -U &lt;username&gt; -P &lt;password&gt;
+</code></pre>
                                 <h2>
-                                    This Site
+                                    Add TDS Connection info to the ODBC driver list
                                 </h2>
                                 <p>
-                                    This is a static html site built with markdown and compiled with python. You can learn how to make it
-                                    <a href="/pages/make_this_site.html">
-                                        here
-                                    </a>
-                                    . I've found that most of the time used on projects is spent finding a simple problem. The purpose of this site is to save the little solutions for next time :)
+                                    Run odbcinst -j to find the file directories for odbcinst.ini and odbc.ini
                                 </p>
                                 <p>
-                                    <strong>
-                                        Thanks for visiting.
-                                    </strong>
+                                    Update odbcinst.ini to include the info below.
                                 </p>
+                                <pre><code>odbcinst -j
+
+# get path from results of odbcinst -j
+nano /usr/local/etc/odbcinst.ini
+
+[FreeTDS]
+Description=FreeTDS Driver for Linux &amp; MSSQL
+Driver=/usr/local/lib/libtdsodbc.so
+Setup=/usr/local/lib/libtdsodbc.so
+UsageCount=1
+
+# control x to save
+</code></pre>
+                                <p>
+                                    Next, edit the odbc.ini file.
+                                </p>
+                                <p>
+                                    Add the following info.
+                                </p>
+                                <pre><code>odbcinst -j
+
+# get path from results of odbcinst -j
+nano /usr/local/etc/odbc.ini
+
+[&lt;connection_name&gt;]
+Description         = &lt;connection_description&gt;
+Driver              = FreeTDS 
+Servername          = &lt;connection_name&gt;
+
+# note: FreeTDS must match the name given in odbcinst.ini
+</code></pre>
+                                <h2>
+                                    Install pyodbc
+                                </h2>
+                                <p>
+                                    Finally, pyodbc for python can be installed
+                                </p>
+                                <pre><code>pip install pyodbc
+</code></pre>
                                 <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                     <span style="font-size: 90%;float: left;">
                                         <small>
-                                            Last updated November 9,2018
+                                            Last updated October 31,2018
                                         </small>
                                     </span>
                                     <span class="footer-links">

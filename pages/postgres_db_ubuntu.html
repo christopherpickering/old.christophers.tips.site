@@ -90,7 +90,7 @@
                             <li class="header accordion-toggle">
                                 Database Connections
                             </li>
-                            <div class="accordion-content ">
+                            <div class="accordion-content default">
                                 <li class="chapter ">
                                     <a href="/pages/cx_oracle_ubuntu.html">
                                         Ubuntu CX Oracle
@@ -111,7 +111,7 @@
                                         Mac Postgres
                                     </a>
                                 </li>
-                                <li class="chapter ">
+                                <li class="chapter active">
                                     <a href="/pages/postgres_db_ubuntu.html">
                                         Ubunto Postgres
                                     </a>
@@ -151,47 +151,133 @@
                         <div class="page-inner">
                             <section class="normal markdown-section">
                                 <h1>
-                                    Hi, I'm Christopher Pickering
+                                    Migrating from MySQL to Postgres on Ubuntu Server
                                 </h1>
-                                <p>
-                                    I'm a believer in Jesus Christ and an engineer. I love my family, learning, building things, and solving hard problems.
-                                </p>
                                 <h2>
-                                    What I do
+                                    Install Postgres
+                                </h2>
+                                <pre><code>sudo apt install postgresql postgresql-contrib
+</code></pre>
+                                <p>
+                                    Set ps to run on startup
+                                </p>
+                                <pre><code>sudo update-rc.d postgresql enable
+</code></pre>
+                                <p>
+                                    Next start a postgres session
+                                </p>
+                                <pre><code>sudo -u postgres psql
+</code></pre>
+                                <h2>
+                                    Create Userer and DB
+                                </h2>
+                                <h3>
+                                    Create a user
+                                </h3>
+                                <pre><code>CREATE ROLE username WITH LOGIN PASSWORD 'password' ;
+</code></pre>
+                                <h3>
+                                    Add permissions to user
+                                </h3>
+                                <pre><code>ALTER ROLE username CREATEDB;
+</code></pre>
+                                <h3>
+                                    Create a Database
+                                </h3>
+                                <pre><code>CREATE DATABASE databasename;
+</code></pre>
+                                <h3>
+                                    Add Authorized Users to Database
+                                </h3>
+                                <pre><code>GRANT ALL PRIVILEGES ON DATABASE databasename TO username;
+</code></pre>
+                                <h2>
+                                    Navigation
+                                </h2>
+                                <pre><code># List all database
+\list
+
+# Connect to database
+\connect databasename
+
+# List all tables
+\dt
+</code></pre>
+                                <h2>
+                                    Django Setup
                                 </h2>
                                 <p>
-                                    I work for
-                                    <a href="www.bimba.com">
-                                        Bimba
-                                    </a>
-                                    during the day. Most of my time is spent creating solutions and simplifying tasks with python programming and doing data collection, reporting and analysis.
+                                    First intall the postgres helper
                                 </p>
+                                <pre><code>pip install psycopg2-binary
+</code></pre>
                                 <p>
-                                    When other time is available I chip in at
-                                    <a href="www.dayspringbibles.com">
-                                        Dayspring Bibles
-                                    </a>
-                                    doing scripting, typesetting and other fun things.
+                                    Next, add the database to settings.py
+                                </p>
+                                <pre><code>    ,
+                'postgresql': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': 'bdname',
+                'USER': 'username',
+                'PASSWORD': 'pass',
+                'HOST': '127.0.0.1',
+                'PORT': '',
+    } 
+</code></pre>
+                                <p>
+                                    Ensure migrations are up to date
+                                </p>
+                                <pre><code>python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+                                <p>
+                                    Migrate settings to the new database and ensure tables are clear for import.
+                                </p>
+                                <pre><code>python manage.py migrate --database=posgresql
+python manage.py sqlflush --database=postgresql
+</code></pre>
+                                <p>
+                                    Export MySQL database to json.
+                                </p>
+                                <pre><code>python manage.py dumpdata --all --natural-primary --indent=4 &gt; dbname.json
+</code></pre>
+                                <p>
+                                    Import json to Postgres
+                                </p>
+                                <pre><code>python manage.py loaddata dbname.json --database=postgresql
+</code></pre>
+                                <p>
+                                    Finally change the default database in settings.py to the postgress connection.
                                 </p>
                                 <h2>
-                                    This Site
+                                    Tips
                                 </h2>
+                                <h3>
+                                    Restarting Postgres
+                                </h3>
+                                <pre><code>sudo service postgresql restart
+</code></pre>
+                                <h3>
+                                    Tuning
+                                </h3>
                                 <p>
-                                    This is a static html site built with markdown and compiled with python. You can learn how to make it
-                                    <a href="/pages/make_this_site.html">
-                                        here
-                                    </a>
-                                    . I've found that most of the time used on projects is spent finding a simple problem. The purpose of this site is to save the little solutions for next time :)
+                                    Edit conf file. You can start a session with postgres and run
+                                    <code>
+                                        SHOW config_file;
+                                    </code>
+                                    to see its location.
                                 </p>
+                                <pre><code>sudo nano /etc/postgresql/10/main/postgresql.conf
+</code></pre>
                                 <p>
-                                    <strong>
-                                        Thanks for visiting.
-                                    </strong>
+                                    Set shared_buffers to 25% of total ram. Example: with 4gb ram:
                                 </p>
+                                <pre><code>shared_buffers = 1024MB
+</code></pre>
                                 <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                     <span style="font-size: 90%;float: left;">
                                         <small>
-                                            Last updated November 9,2018
+                                            Last updated December 19,2018
                                         </small>
                                     </span>
                                     <span class="footer-links">

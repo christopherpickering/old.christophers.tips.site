@@ -90,8 +90,8 @@
                             <li class="header accordion-toggle">
                                 Database Connections
                             </li>
-                            <div class="accordion-content ">
-                                <li class="chapter ">
+                            <div class="accordion-content default">
+                                <li class="chapter active">
                                     <a href="/pages/cx_oracle_ubuntu.html">
                                         Ubuntu CX Oracle
                                     </a>
@@ -151,47 +151,88 @@
                         <div class="page-inner">
                             <section class="normal markdown-section">
                                 <h1>
-                                    Hi, I'm Christopher Pickering
+                                    Setting Up Cx_Oracle on Linux/Ubuntu
                                 </h1>
                                 <p>
-                                    I'm a believer in Jesus Christ and an engineer. I love my family, learning, building things, and solving hard problems.
+                                    <a href="https://cx-oracle.readthedocs.io/en/latest/installation.html">
+                                        Cx_Oracle Docs
+                                    </a>
                                 </p>
                                 <h2>
-                                    What I do
+                                    Download Instant Client
                                 </h2>
                                 <p>
-                                    I work for
-                                    <a href="www.bimba.com">
-                                        Bimba
+                                    On host computer (Mac in this case)
+                                    <a href="https://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.htm">
+                                        donwload
                                     </a>
-                                    during the day. Most of my time is spent creating solutions and simplifying tasks with python programming and doing data collection, reporting and analysis.
+                                    the instant client basic and skd rpn's. Oracle changed the name on sdk's to devel.
                                 </p>
                                 <p>
-                                    When other time is available I chip in at
-                                    <a href="www.dayspringbibles.com">
-                                        Dayspring Bibles
-                                    </a>
-                                    doing scripting, typesetting and other fun things.
+                                    oracle-instantclient18.3-basic-18.3.0.0.0-1.x86
+                                    <em>
+                                        64.rpm
+oracle-instantclient18.3-devel-18.3.0.0.0-1.x86
+                                    </em>
+                                    64.rpm
+                                </p>
+                                <p>
+                                    Put the files in a known directory. In my case I put the files in ~/Documents/Projects/Oracle
                                 </p>
                                 <h2>
-                                    This Site
+                                    Move Instant Client files to Server
                                 </h2>
                                 <p>
-                                    This is a static html site built with markdown and compiled with python. You can learn how to make it
-                                    <a href="/pages/make_this_site.html">
-                                        here
-                                    </a>
-                                    . I've found that most of the time used on projects is spent finding a simple problem. The purpose of this site is to save the little solutions for next time :)
+                                    Login to the server. Run this command to copy the full Oracle directory with both rpn's from the Mac host to the server.
+On the Mac host don't forget to allow ssh connections. "System Preferences" &gt; "Sharing" &gt; "Remote Login" &gt; "On"
                                 </p>
+                                <pre><code>sudo mkdir /home/Oracle
+sudo scp -r 'username'@'machost':~/Documents/Projects/Oracle /home/
+</code></pre>
+                                <h2>
+                                    Install Instant Client
+                                </h2>
                                 <p>
-                                    <strong>
-                                        Thanks for visiting.
-                                    </strong>
+                                    Use alian to convert both rpn's to deb and install.
+                                </p>
+                                <pre><code>cd /home/Oracle
+sudo apt-get install alien
+sudo alien -i oracle-instantclient18.3-basic-18.3.0.0.0-1.x86_64.rpm
+sudo alien -i oracle-instantclient18.3-devel-18.3.0.0.0-1.x86_64.rpm 
+# uninstall alien if no longer needed
+sudo apt-get purge --auto-remove alien
+sudo rm -rf /home/Oracle
+</code></pre>
+                                <p>
+                                    Install the packages needed on Ubuntu
+                                </p>
+                                <pre><code>sudo apt-get install libaio-dev
+</code></pre>
+                                <h2>
+                                    Change Oracle Settings
+                                </h2>
+                                <p>
+                                    Add oracle to the system path.
+                                </p>
+                                <pre><code>sudo sh -c "echo /usr/lib/oracle/18.3/client64/lib &gt; /etc/ld.so.conf.d/oracle-instantclient.conf"
+sudo ldconfig
+</code></pre>
+                                <p>
+                                    If you plan to use tnsnames.ora you can create the directory here. This is the default location for oracle.
+                                </p>
+                                <pre><code>sudo mkdir -p /usr/lib/oracle/18.3/client64/lib/network/admin
+
+# copy tnsnames.ora from Mac host
+sudo scp 'username'@'machost':/opt/oracle/instantclient_12_2/network/admin/tnsnames.ora /usr/lib/oracle/18.3/client64/lib/network/admin
+
+</code></pre>
+                                <p>
+                                    Good luck :)
                                 </p>
                                 <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                     <span style="font-size: 90%;float: left;">
                                         <small>
-                                            Last updated November 9,2018
+                                            Last updated October 22,2018
                                         </small>
                                     </span>
                                     <span class="footer-links">

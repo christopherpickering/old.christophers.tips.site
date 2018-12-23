@@ -50,8 +50,8 @@
                             <li class="header accordion-toggle">
                                 MISC
                             </li>
-                            <div class="accordion-content ">
-                                <li class="chapter ">
+                            <div class="accordion-content default">
+                                <li class="chapter active">
                                     <a href="/pages/make_this_site.html">
                                         Make this Site
                                     </a>
@@ -151,47 +151,124 @@
                         <div class="page-inner">
                             <section class="normal markdown-section">
                                 <h1>
-                                    Hi, I'm Christopher Pickering
+                                    How To Make This Site
                                 </h1>
                                 <p>
-                                    I'm a believer in Jesus Christ and an engineer. I love my family, learning, building things, and solving hard problems.
+                                    This site can be made in a few simple steps -
                                 </p>
+                                <ul>
+                                    <li>
+                                        Setup the project
+                                    </li>
+                                    <li>
+                                        Add content
+                                    </li>
+                                    <li>
+                                        Register a domain with Google
+                                    </li>
+                                    <li>
+                                        Add CNAME records
+                                    </li>
+                                </ul>
+                                <h3>
+                                    Clone this project
+                                </h3>
+                                <p>
+                                    Clone the project
+                                </p>
+                                <pre><code>git clone https://github.com/christopherpickering/christophers.tips.git
+</code></pre>
+                                <h3>
+                                    Create a virtual environment
+                                </h3>
+                                <pre><code># rename project
+mv 'christophers.tips' 'myproject'
+cd myproject
+virtualenv venv
+
+# activate
+source venv/bin/activate
+
+# install packages
+pip install jinja2
+pip install markdown2
+pip install pigments
+pip install html5print
+pip install csscompressor
+</code></pre>
+                                <h3>
+                                    Make a directory for the website to generate into
+                                </h3>
+                                <pre><code>mkdir website
+</code></pre>
+                                <h3>
+                                    Add a git repo to your project
+                                </h3>
+                                <pre><code># one for the markdown
+git init 
+git remote add origin /path/to/remote
+
+cd websites
+git init
+git remote add origin /path/to/remote
+
+</code></pre>
                                 <h2>
-                                    What I do
+                                    Add content
                                 </h2>
                                 <p>
-                                    I work for
-                                    <a href="www.bimba.com">
-                                        Bimba
-                                    </a>
-                                    during the day. Most of my time is spent creating solutions and simplifying tasks with python programming and doing data collection, reporting and analysis.
+                                    First, update the book.json file to your site information.
                                 </p>
                                 <p>
-                                    When other time is available I chip in at
-                                    <a href="www.dayspringbibles.com">
-                                        Dayspring Bibles
-                                    </a>
-                                    doing scripting, typesetting and other fun things.
+                                    The home page is top level in the directory - index.md. Any other page for the site is in the pages/ directory.
                                 </p>
+                                <p>
+                                    After adding a new page the book.json file needs to be updated to include the new page in the menu.
+                                </p>
+                                <p>
+                                    When you are ready to publish your content, be sure the virtual environment is active. Then run the update script.
+                                </p>
+                                <pre><code>./build.bash
+</code></pre>
                                 <h2>
-                                    This Site
+                                    Register a Domain With Google
                                 </h2>
                                 <p>
-                                    This is a static html site built with markdown and compiled with python. You can learn how to make it
-                                    <a href="/pages/make_this_site.html">
-                                        here
+                                    Navigate to
+                                    <a href="domains.google.com">
+                                        domains.google.com
                                     </a>
-                                    . I've found that most of the time used on projects is spent finding a simple problem. The purpose of this site is to save the little solutions for next time :)
+                                    and register a domain. Got to the DNS tab and add in the CNAME information.
                                 </p>
                                 <p>
-                                    <strong>
-                                        Thanks for visiting.
-                                    </strong>
+                                    <img alt="CNAME" src="/static/img/make_this_site-CNAME.png">
+                                </p>
+                                <h2>
+                                    Add CNAME Records to your project
+                                </h2>
+                                <pre><code>cd ../site
+touch CNAME
+nano CNAME
+</code></pre>
+                                <p>
+                                    Add two lines to the CNAME file
+                                </p>
+                                <pre><code>mysite.com
+www.mysite.com
+</code></pre>
+                                <p>
+                                    Finally, build and push the site.
+                                </p>
+                                <pre><code># to just build for testing
+./build.bash
+</code></pre>
+                                <p>
+                                    Nice! You will be able to see you site now at mysite.com!
                                 </p>
                                 <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                     <span style="font-size: 90%;float: left;">
                                         <small>
-                                            Last updated November 9,2018
+                                            Last updated December 14,2018
                                         </small>
                                     </span>
                                     <span class="footer-links">
