@@ -90,13 +90,13 @@
                             <li class="header accordion-toggle">
                                 Database Connections
                             </li>
-                            <div class="accordion-content default">
+                            <div class="accordion-content ">
                                 <li class="chapter ">
                                     <a href="/pages/cx_oracle_ubuntu.html">
                                         Ubuntu CX Oracle
                                     </a>
                                 </li>
-                                <li class="chapter active">
+                                <li class="chapter ">
                                     <a href="/pages/cxoracle_mac.html">
                                         Mac CX Oracle
                                     </a>
@@ -130,8 +130,8 @@
                             <li class="header accordion-toggle">
                                 Projects
                             </li>
-                            <div class="accordion-content ">
-                                <li class="chapter ">
+                            <div class="accordion-content default">
+                                <li class="chapter active">
                                     <a href="/pages/slippers.html">
                                         Slippers
                                     </a>
@@ -161,63 +161,113 @@
                         <div class="page-inner">
                             <section class="normal markdown-section">
                                 <h1>
-                                    How to Install CX_Oracle on Mac
+                                    Homemade Slippers
                                 </h1>
                                 <p>
-                                    <a href="https://cx-oracle.readthedocs.io/en/latest/installation.html#install-using-github">
-                                        Official Docs
-                                    </a>
+                                    Old wool sweaters have another life! Here's how to make warm slippers from your old wool sweaters.
                                 </p>
                                 <h2>
-                                    Install Python
+                                    Make Felt
                                 </h2>
                                 <p>
-                                    CX Oracle will not work with the mac bundled python. Install python with homebrew.
+                                    Left naturally the sweater will frey and not last long under your feet. Toss the sweater into the washer and dryer with the next several loads of laundry.
                                 </p>
-                                <pre><code>brew install python3
-pip3 install virtualenv
-</code></pre>
                                 <p>
-                                    Next install CX_Oracle for python. If it will be used in a virtual env, create that first.
+                                    It will shrink and become a bit stiffer.
                                 </p>
-                                <pre><code># create virtual env
-python3 -m virtualenv venv
-
-# install cx oracle
-pip install cx_Oracle
-</code></pre>
+                                <p>
+                                    <img alt="sweater" src="/static/img/slippers/sweater.png" style="height: 400px;">
+                                </p>
+                                <p>
+                                    If its a giant sweater it may be easier to cut it in half first.
+                                </p>
+                                <p>
+                                    <img alt="cutout" src="/static/img/slippers/cuttout.png" style="height: 400px;">
+                                </p>
                                 <h2>
-                                    Install Oracle Client
+                                    Cut It Out
                                 </h2>
                                 <p>
-                                    Download
-                                    <a href="http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html">
-                                        Oracle Client basic.
-                                    </a>
+                                    There are 3 parts to the slippers:
+                                </p>
+                                <ul>
+                                    <li>
+                                        Top
+                                    </li>
+                                    <li>
+                                        Bottom
+                                    </li>
+                                    <li>
+                                        Back
+                                    </li>
+                                </ul>
+                                <p>
+                                    <img alt="pattern" src="/static/img/slippers/pattern.png" style="height: 400px;">
                                 </p>
                                 <p>
-                                    Unzip it into the final directory.
+                                    Start with the bottom.
                                 </p>
-                                <pre><code>sudo mkdir -p /opt/oracle
-</code></pre>
+                                <h3>
+                                    Bottom
+                                </h3>
                                 <p>
-                                    Move the unzipped download into that folder.
+                                    Put your foot on the sweater and cut out around it. Leave like 1/2 of an inch extra.
                                 </p>
                                 <p>
-                                    Add links to the /lib folder to make cx_oracle accessable.
+                                    Take the bottom and cut out another, identical.
                                 </p>
-                                <pre><code>mkdir ~/lib
-ln -s /opt/oracle/instantclient_12_2/libclntsh.dylib.12.1 ~/lib/
-</code></pre>
                                 <p>
-                                    Create the folder for the tnsnames.ora file.
+                                    <img alt="bottom" src="/static/img/slippers/bottom.png" style="height: 400px;">
+                                    <img alt="bottom" src="/static/img/slippers/bottom1.png" style="height: 400px;">
                                 </p>
-                                <pre><code>mkdir -p /opt/oracle/instantclient_12_2/network/admin
-</code></pre>
+                                <h3>
+                                    Top
+                                </h3>
+                                <p>
+                                    Lay the remaining sweater over the top of your foot. Cut out around your foot again, leaving about 1/2 of an inch extra.
+                                </p>
+                                <p>
+                                    <img alt="top" src="/static/img/slippers/top.png" style="height: 400px;">
+                                    <img alt="top" src="/static/img/slippers/top1.png" style="height: 400px;">
+                                </p>
+                                <h3>
+                                    Back
+                                </h3>
+                                <p>
+                                    Last of all the back can be cutout. Cut out a rectangle that is long enough to reach around the back of your foot, and tall enough to keep your foot in.
+                                </p>
+                                <p>
+                                    <img alt="back" src="/static/img/slippers/back.png" style="height: 400px;">
+                                    <img alt="back" src="/static/img/slippers/back1.png" style="height: 400px;">
+                                </p>
+                                <h2>
+                                    Sew It Together
+                                </h2>
+                                <p>
+                                    The top and bottom will be sewn together first. Sew it strong! Everything is sewn inside out... when you do slipper 2, make sure you sew it opposite of slipper 1 so that you do not have 2 slippers for 1 foot :)
+                                </p>
+                                <p>
+                                    <img alt="sewing" src="/static/img/slippers/sewing.png" style="height: 400px;">
+                                </p>
+                                <h2>
+                                    Test Fit
+                                </h2>
+                                <p>
+                                    They slippers should look something like this.. hopefully!
+                                </p>
+                                <p>
+                                    <img alt="complete" src="/static/img/slippers/complete1.png" style="height: 400px;">
+                                </p>
+                                <p>
+                                    Do they fit?
+                                </p>
+                                <p>
+                                    <img alt="complete" src="/static/img/slippers/complete.png" style="height: 400px;">
+                                </p>
                                 <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                     <span style="font-size: 90%;float: left; height:30px;">
                                         <small>
-                                            Last updated November 1,2018
+                                            Last updated February 2,2019
                                         </small>
                                     </span>
                                     <span class="footer-links">
