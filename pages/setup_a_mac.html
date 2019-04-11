@@ -209,6 +209,26 @@
                                 </ul>
                                 <pre><code>tree -v --charset utf-8 -I venv
 </code></pre>
+                                <ul>
+                                    <li>
+                                        python3
+                                    </li>
+                                </ul>
+                                <pre><code>brew install python3
+</code></pre>
+                                <p>
+                                    If you upgrade python the links in virtualenv's will break. They can be deleted and recreated.
+                                </p>
+                                <p>
+                                    If you are in a directory with a virtual envirenment called venv this should work:
+                                </p>
+                                <pre><code># find broken links
+find venv/ -type l
+# delete broken links
+find venv/ -type l -delete
+# create new links
+virtualenv venv
+</code></pre>
                                 <h2>
                                     Terminal
                                 </h2>
@@ -402,7 +422,7 @@ python3 -m  http.server 8001 # or any port #
                                 <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                     <span style="font-size: 90%;float: left; height:30px;">
                                         <small>
-                                            Last updated December 14,2018
+                                            Last updated April 11,2019
                                         </small>
                                     </span>
                                     <span class="footer-links">
