@@ -53,7 +53,7 @@
                             <li class="header accordion-toggle">
                                 MISC
                             </li>
-                            <div class="accordion-content ">
+                            <div class="accordion-content default">
                                 <li class="chapter ">
                                     <a href="/pages/make_this_site.html">
                                         Make this Site
@@ -64,7 +64,7 @@
                                         Mac Setup
                                     </a>
                                 </li>
-                                <li class="chapter ">
+                                <li class="chapter active">
                                     <a href="/pages/mac_setup_vpn.html">
                                         VPN on Mac
                                     </a>
@@ -73,7 +73,7 @@
                             <li class="header accordion-toggle">
                                 Development
                             </li>
-                            <div class="accordion-content default">
+                            <div class="accordion-content ">
                                 <li class="chapter ">
                                     <a href="/pages/Mac_Django_Setup.html">
                                         Django on Mac
@@ -89,7 +89,7 @@
                                         Git
                                     </a>
                                 </li>
-                                <li class="chapter active">
+                                <li class="chapter ">
                                     <a href="/pages/ubuntu_kiosk.html">
                                         Ubuntu Kiosk
                                     </a>
@@ -174,320 +174,176 @@
                         <div class="page-inner">
                             <section class="normal markdown-section">
                                 <h1>
-                                    Create a Basic Ubuntu Web Kiosk
+                                    How To Use VPN on an Intranet
                                 </h1>
                                 <p>
-                                    These steps are used on a MINIX PC with windows 10 pro installed.
+                                    Why use a VPN? The VPN will keep your network traffic secure between you and the host and will make snooping very challenging. The downside of a VPN is that all traffic from your computer is routed to the VPN host and you loose access to servers/websites that are on the local network.
+                                </p>
+                                <p>
+                                    These steps will help to make a VPN doable
                                 </p>
                                 <h2>
-                                    Install Latest UBUNTU
+                                    Installs
                                 </h2>
-                                <p>
-                                    <a href="https://www.ubuntu.com/download/desktop">
-                                        Download
-                                    </a>
-                                    Ubuntu and put the image onto a thumb drive.
-                                    <a href="https://www.balena.io/etcher/">
-                                        Etcher
-                                    </a>
-                                    is an easy program to use.
-                                </p>
-                                <h3>
-                                    Next we need to go into the BIOS and boot from the new USB.
-                                </h3>
-                                <ol>
-                                    <li>
-                                        Open Settings
-                                    </li>
-                                    <li>
-                                        Choose Update and Security
-                                    </li>
-                                    <li>
-                                        Choose Recovery from the left menu
-                                    </li>
-                                    <li>
-                                        In the Advanced startup section click Restart Now
-                                    </li>
-                                    <li>
-                                        After reboot click Troubleshoot
-                                    </li>
-                                    <li>
-                                        Click Advanced Options
-                                    </li>
-                                    <li>
-                                        Click UEFI Firmware Settings
-                                    </li>
-                                    <li>
-                                        Click Restart
-                                    </li>
-                                </ol>
-                                <h3>
-                                    Select USB to boot from
-                                </h3>
-                                <p>
-                                    While in the BIOS we will change the PC to auto boot when there is a power failure and then to boot from the USB to install UBUNTU.
-                                </p>
-                                <ol>
-                                    <li>
-                                        Navigate to the Advanced tab
-                                    </li>
-                                    <li>
-                                        Choose option for MINIX Feature Configuration
-                                    </li>
-                                    <li>
-                                        Change option for AC Power On to Always On
-                                    </li>
-                                    <li>
-                                        Navigate to the Save &amp; Exit tab
-                                    </li>
-                                    <li>
-                                        Change Boot Override to your USB device
-                                    </li>
-                                </ol>
-                                <h3>
-                                    Install UBUNTU
-                                </h3>
-                                <ol>
-                                    <li>
-                                        Select Install UBUNTU from the menu
-                                    </li>
-                                    <li>
-                                        After selecting language, select the option for Minimal installation
-                                    </li>
-                                    <li>
-                                        Select option to Erase disk and insatll Ubuntu
-                                    </li>
-                                    <li>
-                                        Create an Admin user with pass you will not forget
-                                    </li>
-                                </ol>
-                                <h2>
-                                    Setup Kiosk
-                                </h2>
-                                <h3>
-                                    Create User
-                                </h3>
-                                <p>
-                                    Next create the kiosk user account in terminal. The account will be setup with no password and auto login.
-                                </p>
-                                <pre><code># create user
-sudo adduser kiosk
-
-# set no pass
-sudo passwd -d 'kiosk'
-
-# set auto login. Edit conf file. 
-# Remove comments on the auto login section and add user. 
-sudo nano /etc/gdm3/custom.conf
-
-# section should look like this:
-# Enabling automatic login
-AutomaticLoginEnable = True
-AutomaticLogin = kiosk
-
-# next allow kiosk to sudo without a pass
-sudo visudo
-# add this to the end of file
-kiosk ALL=(ALL) NOPASSWD: ALL
-
-# fianlly reboot as kiosk user for remaining changes. 
-# if everything worked the user should auto login.
-sudo reboot
-</code></pre>
-                                <h3>
-                                    If more BIOS Changes are needed .. Change Grub Settings
-                                </h3>
-                                <p>
-                                    We will change the grub settings to show the grub menu on boot so that we can access BIOS by pressing F2 when booting if needed.
-                                </p>
-                                <p>
-                                    In terminal:
-                                </p>
-                                <pre><code># open grub settings
-sudo nano /etc/default/grub
-
-# add a # to comment out the line "GRUB_TIMEOUT_STYLE=hidden"
-
-# finally, run grub update
-sudo update-grub
-</code></pre>
-                                <h3>
-                                    Reboot Every Night
-                                </h3>
-                                <p>
-                                    We would like the PC to reboot daily. This must be done on the admin account.
-                                </p>
-                                <p>
-                                    Add an entry to crontab:
-                                </p>
-                                <pre><code>sudo crontab -e
-
-# every day at 2 am
-0 2 * * * /sbin/shutdown -r now 
-
-# save and then restart cron
-sudo service cron restart
-</code></pre>
-                                <h2>
-                                    Enable Remote Access
-                                </h2>
-                                <p>
-                                    Because we installed the basic UBUNTU the package we need was not installed. Install now.
-                                </p>
-                                <pre><code>sudo apt install -y vino
-</code></pre>
-                                <p>
-                                    These steps must be done on the kiosk user, not admin.
-                                </p>
-                                <ol>
-                                    <li>
-                                        Settings &gt; Sharing &gt; Turn On
-                                    </li>
-                                    <li>
-                                        Turn on screen sharing
-                                    </li>
-                                    <li>
-                                        Add a password
-                                    </li>
-                                </ol>
-                                <p>
-                                    Stop encryption
-                                </p>
-                                <pre><code>sudo gsettings set org.gnome.Vino require-encryption false
-</code></pre>
-                                <p>
-                                    Other possible helps
-                                </p>
-                                <pre><code>sudo apt-get install dconf-tools
-</code></pre>
-                                <p>
-                                    These steps must be done as the kiosk user, not admin.
-                                </p>
-                                <p>
-                                    Open dconf. Navigate to org &gt; gnome &gt; desktop &gt; remote-access
-                                </p>
                                 <ul>
                                     <li>
-                                        Turnn of require encription
+                                        <a href="https://protonvpn.com">
+                                            ProtonVPN
+                                        </a>
                                     </li>
                                     <li>
-                                        chang auth method to vnc
+                                        <a href="https://apps.apple.com/us/app/helm-hosts-file-manager/id1099472017?mt=12">
+                                            Helm
+                                        </a>
+                                        or another hosts manager
                                     </li>
                                 </ul>
-                                <p>
-                                    Restart for changes to work.
-                                </p>
                                 <h2>
-                                    Create firefox startup script
+                                    How To
                                 </h2>
                                 <p>
-                                    This piece of the setup is done in the kiosk user section.
+                                    Running intranet sites while on a VPN can be painful, but with a few steps can be conquered.
+                                </p>
+                                <p>
+                                    First install ProtonVPN and Helm.
+                                </p>
+                                <p>
+                                    ProtonVPN is the VPN of our choice.
+                                </p>
+                                <p>
+                                    Helm is used to easly manage hosts. We can have several profiles in there.
                                 </p>
                                 <h3>
-                                    Create Firefox Startup Script
+                                    Create Network Routes
                                 </h3>
                                 <p>
-                                    In Termiinal:
+                                    When you are running a VPN all network traffic is routed out to the VPN host. This means that you will not be able to access intranet sites anymore, or any sites that are specific to the network you are using.
                                 </p>
-                                <pre><code>nano ~/Desktop/firefox.sh
-
-# add this to the file and save. This will enable gestures in firefox.
-# sleep for 30 seconds so internet can connect
-sleep 30s
-MOZ_USE_XINPUT2=1 /usr/bin/firefox
+                                <p>
+                                    Thankfully your mac has an option to router network traffic to specific hosts and bypass the VPN if needed!
+                                </p>
+                                <p>
+                                    A network route can be easily added. Heres an example that will reroute all 10.x.x.x traffic through 11.0.0.1:
+                                </p>
+                                <pre><code>sudo -n add route -net 10.0.0.0 11.0.0.1
 </code></pre>
                                 <p>
-                                    Change permissions to script to be able to run as non sudo
+                                    The problem is that when your mac restarts it will reset the routes!
                                 </p>
-                                <pre><code>chmod 777 ~/Desktop/firefox.sh
+                                <p>
+                                    We need to make a script that will add the routes each time your mac restarts.
+                                </p>
+                                <h4>
+                                    Create Route Script
+                                </h4>
+                                <p>
+                                    In your favorite script location make a new script.
+                                </p>
+                                <pre><code>cd fav_script_location
+nano route_script
 </code></pre>
                                 <p>
-                                    Make the script run on login. It can either be added to "Startup Applications" user interface.
-Search start menu for startup applications and add
+                                    Add in the routes to add. You can find all the route syntax options by running
                                     <code>
-                                        ~/Desktop/firefox.sh
+                                        man route
                                     </code>
-                                    as the program to run.
+                                    .
+                                </p>
+                                <p>
+                                    the basic syntax is
+                                </p>
+                                <pre><code>add route ip_address gateway_address
+</code></pre>
+                                <p>
+                                    I include the -n so network names are not looked up when adding the route, and also -net which will allow a base address to include matches. For example -net 10.0.0.0 will include 10.1.0.0. The last three zeros are basically wild cards in the ip addresses.
+                                </p>
+                                <p>
+                                    To find the local gateway run
+                                    <code>
+                                        netstat -rn
+                                    </code>
+                                    with the VPN off. The default destination will have a gateway IP address for you LAN.
+                                </p>
+                                <p>
+                                    When completed your script may look like this:
+                                </p>
+                                <pre><code>route -n add -net 10.0.0.0 10.1.123.1
+route -n add -net 10.1.233.1 10.1.123.1
+</code></pre>
+                                <p>
+                                    Change permissions for script.
+                                </p>
+                                <pre><code>chmod +x route_script
+</code></pre>
+                                <h3>
+                                    Add plist To Run Script on Startup
+                                </h3>
+                                <p>
+                                    The plist needs to be in
+                                    <code>
+                                        ~/Library/LaunchAgents
+                                    </code>
+                                    to be pickedup.
+                                </p>
+                                <pre><code>nano ~/Library/LaunchAgents/com.route_script.plist
+</code></pre>
+                                <p>
+                                    Add in the content.
+                                </p>
+                                <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+&lt;dict&gt;
+&lt;key&gt;Label&lt;/key&gt;
+&lt;string&gt;com.route_script.plist&lt;/string&gt;
+&lt;key&gt;ProgramArguments&lt;/key&gt;
+&lt;array&gt;
+&lt;string&gt;fav_script_location/route_script&lt;/string&gt;
+&lt;/array&gt;
+&lt;key&gt;StandardErrorPath&lt;/key&gt;
+&lt;string&gt;fav_script_location/route_script.err&lt;/string&gt;
+&lt;key&gt;StandardOutPath&lt;/key&gt;
+&lt;string&gt;fav_script_location/route_script.out&lt;/string&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre>
+                                <p>
+                                    Set the script to launch on startup.
+                                </p>
+                                <pre><code>sudo chown root ~/Library/LaunchAgents/com.route_script.plist
+sudo launchctl load ~/Library/LaunchAgents/com.route_script.plist
+</code></pre>
+                                <p>
+                                    To test if the route are working you can manually start the plist, or restart your mac and run
+                                    <code>
+                                        netstat -rn
+                                    </code>
+                                    . Your new rout should be listed in there!
+                                </p>
+                                <p>
+                                    To manually launch plist:
+                                </p>
+                                <pre><code>sudo launchctl start com.route_script.plist
+</code></pre>
+                                <p>
+                                    If it does not start, open mac app "console" and check for any messages in the system.log section. You will find details of the errors in the paths specified for logging in the plist paths you created for logging.
+                                </p>
+                                <h3>
+                                    Setup Hosts
+                                </h3>
+                                <p>
+                                    Finally, the last step is to configure Helm with your hosts. Click the icon in the menu bar and follow instructions.
                                 </p>
                                 <h2>
-                                    Change Firefox settings
+                                    Test
                                 </h2>
-                                <h3>
-                                    Change diplay settings
-                                </h3>
-                                <ul>
-                                    <li>
-                                        Change homepage to http://backoffice/
-                                    </li>
-                                    <li>
-                                        Turn off all homepage features
-                                    </li>
-                                    <li>
-                                        Install AutoFullscreen extension to put firefox in full screen mode when opened.
-                                    </li>
-                                </ul>
-                                <h3>
-                                    Change PDF Settings
-                                </h3>
                                 <p>
-                                    Navigate go to url "about:config" to open settings.
-                                </p>
-                                <p>
-                                    Search for pdf
-                                </p>
-                                <p>
-                                    change "cursorToolOnLoad" to 1
-                                </p>
-                                <p>
-                                    change "disablePageMode" to true
-                                </p>
-                                <p>
-                                    change "sidebarViewOnLoad" to 4
-                                </p>
-                                <h3>
-                                    Do not reopen tabs on crash
-                                </h3>
-                                <p>
-                                    When firefox starts we always want the home page, do not attempt to reopen any tabs.
-                                </p>
-                                <p>
-                                    Seach for session. change browser.sessionstore.resume
-                                    <em>
-                                        from
-                                    </em>
-                                    crash to False.
-                                </p>
-                                <h2>
-                                    Other Settings
-                                </h2>
-                                <h3>
-                                    Turn on On Screen Keybaord
-                                </h3>
-                                <p>
-                                    Settings &gt; Universal Access &gt; Screen Keyboard &gt; On
-                                </p>
-                                <h3>
-                                    Turn off Screen Saver
-                                </h3>
-                                <p>
-                                    Settings &gt; Power &gt; Blank Screen &gt; Never
-                                </p>
-                                <p>
-                                    Automatic Suspend &gt; Off
-                                </p>
-                                <p>
-                                    Bluetooth Off
-                                </p>
-                                <h3>
-                                    Turn off Notifications
-                                </h3>
-                                <p>
-                                    Settings &gt; Notifications &gt; Off
+                                    Turn on the VPN and try to access the local sites!
                                 </p>
                                 <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                     <span style="font-size: 90%;float: left; height:30px;">
                                         <small>
-                                            Last updated December 17,2018
+                                            Last updated June 21,2019
                                         </small>
                                     </span>
                                     <span class="footer-links">
