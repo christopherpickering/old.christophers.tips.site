@@ -53,8 +53,8 @@
                             <li class="header accordion-toggle">
                                 MISC
                             </li>
-                            <div class="accordion-content default">
-                                <li class="chapter active">
+                            <div class="accordion-content ">
+                                <li class="chapter ">
                                     <a href="/pages/make_this_site.html">
                                         Make this Site
                                     </a>
@@ -153,13 +153,13 @@
                             <li class="header accordion-toggle">
                                 Code Server
                             </li>
-                            <div class="accordion-content ">
+                            <div class="accordion-content default">
                                 <li class="chapter ">
                                     <a href="/pages/gitea_setup.html">
                                         Gitea Setup
                                     </a>
                                 </li>
-                                <li class="chapter ">
+                                <li class="chapter active">
                                     <a href="/pages/gitea_customization.html">
                                         Gitea Customization
                                     </a>
@@ -189,124 +189,126 @@
                         <div class="page-inner">
                             <section class="normal markdown-section">
                                 <h1>
-                                    How To Make This Site
+                                    How to Customize Gitea
                                 </h1>
-                                <p>
-                                    This site can be made in a few simple steps -
-                                </p>
-                                <ul>
-                                    <li>
-                                        Setup the project
-                                    </li>
-                                    <li>
-                                        Add content
-                                    </li>
-                                    <li>
-                                        Register a domain with Google
-                                    </li>
-                                    <li>
-                                        Add CNAME records
-                                    </li>
-                                </ul>
-                                <h3>
-                                    Clone this project
-                                </h3>
-                                <p>
-                                    Clone the project
-                                </p>
-                                <pre><code>git clone https://github.com/christopherpickering/christophers.tips.git
-</code></pre>
-                                <h3>
-                                    Create a virtual environment
-                                </h3>
-                                <pre><code># rename project
-mv 'christophers.tips' 'myproject'
-cd myproject
-virtualenv venv
-
-# activate
-source venv/bin/activate
-
-# install packages
-pip install jinja2
-pip install markdown2
-pip install pigments
-pip install html5print
-pip install csscompressor
-</code></pre>
-                                <h3>
-                                    Make a directory for the website to generate into
-                                </h3>
-                                <pre><code>mkdir website
-</code></pre>
-                                <h3>
-                                    Add a git repo to your project
-                                </h3>
-                                <pre><code># one for the markdown
-git init 
-git remote add origin /path/to/remote
-
-cd websites
-git init
-git remote add origin /path/to/remote
-
-</code></pre>
                                 <h2>
-                                    Add content
+                                    Language Changes
                                 </h2>
                                 <p>
-                                    First, update the book.json file to your site information.
+                                    All language changes  for keywords are in the i18n files. In our case we need to change the app_desc on the home page.
                                 </p>
-                                <p>
-                                    The home page is top level in the directory - index.md. Any other page for the site is in the pages/ directory.
-                                </p>
-                                <p>
-                                    After adding a new page the book.json file needs to be updated to include the new page in the menu.
-                                </p>
-                                <p>
-                                    When you are ready to publish your content, be sure the virtual environment is active. Then run the update script.
-                                </p>
-                                <pre><code>./build.bash
-</code></pre>
+                                <ol>
+                                    <li>
+                                        Login to server
+                                    </li>
+                                    <li>
+                                        Change user to "git"
+                                        <code>
+                                            sh sudo su git
+                                        </code>
+                                    </li>
+                                    <li>
+                                        Change directory to Gitea.
+                                        <code>
+                                            sh cd /home/git/gitea/custom
+                                        </code>
+                                    </li>
+                                    <li>
+                                        Make directory for change.
+                                        <code>
+                                            mkdir options &amp;&amp; cd options
+                                        </code>
+                                    </li>
+                                    <li>
+                                        Make directory for languages.
+                                        <code>
+                                            mkdir locale &amp;&amp; cd locale
+                                        </code>
+                                    </li>
+                                    <li>
+                                        Create language file.
+                                        <code>
+                                            sh nano locale_en-US.ini
+                                        </code>
+                                    </li>
+                                    <li>
+                                        Copy everything from the template source from Gitea.
+                                    </li>
+                                    <li>
+                                        Change any lines that you want changed.
+                                    </li>
+                                    <li>
+                                        Exit as git user.
+                                        <code>
+                                            sh exit
+                                        </code>
+                                    </li>
+                                    <li>
+                                        Restart Gitea service.
+                                        <code>
+                                            sudo systemctl restart gitea
+                                        </code>
+                                    </li>
+                                </ol>
                                 <h2>
-                                    Register a Domain With Google
+                                    Edit Home Page
                                 </h2>
                                 <p>
-                                    Navigate to
-                                    <a href="domains.google.com">
-                                        domains.google.com
-                                    </a>
-                                    and register a domain. Got to the DNS tab and add in the CNAME information.
+                                    Navigate as git user to /home/git/gitea/custom
                                 </p>
-                                <p>
-                                    <img alt="CNAME" src="/static/img/make_this_site-CNAME.png">
-                                </p>
+                                <ol>
+                                    <li>
+                                        Make a directory for the templates.
+                                        <code>
+                                            sh mkdir templates &amp;&amp; cd templates
+                                        </code>
+                                    </li>
+                                    <li>
+                                        Create template file &amp; copy in source.
+                                        <code>
+                                            sh nano home.tmpl
+                                        </code>
+                                    </li>
+                                    <li>
+                                        Retart Gitea service after making changes.
+                                        <code>
+                                            sudo systemctl restart gitea
+                                        </code>
+                                    </li>
+                                </ol>
                                 <h2>
-                                    Add CNAME Records to your project
+                                    Change Landing Page
                                 </h2>
-                                <pre><code>cd ../site
-touch CNAME
-nano CNAME
+                                <p>
+                                    Navigate as git user to /home/git/gitea/custom/conf
+                                </p>
+                                <p>
+                                    Edit app.ini
+                                </p>
+                                <pre><code>sudo nano app.ini
+
+# add section:
+[server]
+LANDING_PAGE = explore
+</code></pre>
+                                <h2>
+                                    Restart Gitea After Changes
+                                </h2>
+                                <p>
+                                    The Gitea service must be restarted for any changed to take affect.
+                                </p>
+                                <pre><code>sudo systemctl restart gitea
 </code></pre>
                                 <p>
-                                    Add two lines to the CNAME file
+                                    or
                                 </p>
-                                <pre><code>mysite.com
-www.mysite.com
+                                <pre><code>sudo systemctl stop gitea
+sudo systemctl start gitea
 </code></pre>
-                                <p>
-                                    Finally, build and push the site.
-                                </p>
-                                <pre><code># to just build for testing
-./build.bash
-</code></pre>
-                                <p>
-                                    Nice! You will be able to see you site now at mysite.com!
-                                </p>
                                 <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                     <span style="font-size: 90%;float: left; height:30px;">
                                         <small>
-                                            Last updated December 14,2018
+                                            Last updated July 26,2019
                                         </small>
                                     </span>
                                     <span class="footer-links">
