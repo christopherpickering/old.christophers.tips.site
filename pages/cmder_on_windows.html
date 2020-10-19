@@ -239,10 +239,10 @@
         
         
             <li class="header accordion-toggle">Windows</li>
-            <div class="accordion-content ">
+            <div class="accordion-content  default">
             
             
-                <li class="chapter  ">
+                <li class="chapter   active">
                     <a href="/pages/cmder_on_windows.html">Setup Cmder</a>
                 </li>
            
@@ -278,25 +278,131 @@
                 <div class="page-wrapper" tabindex="-1" role="main">
                     <div class="page-inner">
                         <section class="normal markdown-section">
-                            <h1>Hi, I'm Christopher Pickering</h1>
+                            <h1>Setting Up CMDER on Windows 10</h1>
 
-<p>I'm an engineer. I love my family, learning, building things, and solving hard problems.</p>
+<p>Nothing quite compares to Iterm2 + Oh My Zsh, but on a Windows 10 this is the best I am able to find. Here's a screenshot:</p>
 
-<h2>What I do</h2>
+<p><img src="/static/img/cmder.png" alt="Supplies" style="max-height: 100%;"></p>
 
-<p>I work as a data engineer during the day. Most of my time is spent creating solutions and simplifying tasks with programming and doing data collection, reporting and analysis.  </p>
+<p>First download <a href="http://https://cmder.net/">Cmder</a>. Unzip into "Documents" and run cmder.exe. Answer any questions when prompted.</p>
 
-<p>When other time is available I chip in at <a href="www.dayspringbibles.com">Dayspring Bibles</a> doing scripting, typesetting and other fun things.</p>
+<p>I find that the default cmder:cmd terminal works well. It can run git and basic linux commands. The only issue I have found is that daisy chaining alias is not permitted. </p>
 
-<h2>This Site</h2>
+<h2>Configure</h2>
 
-<p>This is a static html site built with markdown and compiled with python. You can learn how to make it <a href="/pages/make_this_site.html">here</a>. I've found that most of the time used on projects is spent finding a simple problem. The purpose of this site is to save the little solutions for next time :)</p>
+<p>Click the top left icon and open settings.</p>
 
-<p><strong>Thanks for visiting.</strong></p>
+<p>General &gt; Fonts &gt; change size to 22
+Startup &gt; Tasks &gt; {cmd:Cmder} &gt; add a startup dir</p>
+
+<h2>Set Up Aliases</h2>
+
+<p>The default terminal is cmd.exe. Aliases are added in the cmder/config/user_aliases.cmd.</p>
+
+<p>For other terminals they will need to be added to other places.. for example <code>nano ~/.bash_rc</code> for git bash.</p>
+
+<p>Here is a nice set to use:</p>
+
+<pre><code>gl=git log --oneline --all --graph --decorate  $*
+ls=ls --show-control-chars -F --color $*
+pwd=cd
+clear=cls
+history=cat -n "%CMDER_ROOT%\config\.history"
+unalias=alias /d $1
+vi=vim $*
+cmderr=cd /d "%CMDER_ROOT%"
+gs=git status
+gc=git add . &amp;&amp; git commit -m $*
+gpu=git pull origin
+gp=git push
+gco=git checkout $*
+gb=git branch
+act=.\venv\scripts\activate
+dact=deactivate
+</code></pre>
+
+<h2>Customize the UI</h2>
+
+<p>Bad practice, but I found it was easier to change the source 😇</p>
+
+<p>In cmder/vendor/clink.lua make the following changes:</p>
+
+<p><strong>After Line 38</strong></p>
+
+<pre><code># after this line:
+if cwd == nil then cwd = clink.get_cwd() end
+
+# add a new match to trim the path down to two folders.
+local customPath = cwd:match('(\\[^\\]*\\[^\\]*)$')
+if customPath == nil then cwd = cwd else cwd = "~"..customPath end
+</code></pre>
+
+<p><strong>Lines 50 &amp; 51</strong></p>
+
+<pre><code># change the colors and prompt icon from 
+local cmder_prompt = "\x1b[1;32;40m{cwd} {git}{hg}{svn} \n\x1b[1;39;40m{lamb} \x1b[0m"  
+local lambda = "λ"
+# to
+local cmder_prompt = "\x1b[1;32;40m\x1b[0;35m{cwd} {git}{hg}{svn} \n\x1b[1;32;40m{lamb} \x1b[0m"
+local lambda = "➜"
+</code></pre>
+
+<p><strong>Update git_prompt_filter() function</strong>
+This is the function that displays the git status.</p>
+
+<pre><code>
+local function git_prompt_filter()
+
+  -- Colors for git status
+  local colors = {
+    clean = "\x1b[32;3m",
+    dirty = "\x1b[33;3m",
+    conflict = "\x1b[31;1m"
+  }
+
+  local icons = {
+    clean = " ✔",
+    dirty = " ✎",
+    conflict = " ✘"
+  }
+
+  local git_dir = get_git_dir()
+  if git_dir then
+    -- if we're inside of git repo then try to detect current branch
+    local branch = get_git_branch(git_dir)
+    local color
+    local icon
+    if branch then
+      -- Has branch =&gt; therefore it is a git folder, now figure out status
+      local gitStatus = get_git_status()
+      local gitConflict = get_git_conflict()
+
+      color = colors.dirty
+      icon = icons.dirty
+      if gitStatus then
+        color = colors.clean
+        icon = icons.clean
+      end
+
+      if gitConflict then
+        color = colors.conflict
+        icon = icons.conflict
+      end 
+
+      clink.prompt.value = string.gsub(clink.prompt.value, "{git}", "\x1b[0m(\x1b[1m"..color..verbatim(branch).."\x1b[0m)\x1b[1m".. icon)
+      return false
+    end
+  end
+
+  -- No git present or not in git file
+  clink.prompt.value = string.gsub(clink.prompt.value, "{git}", "")
+  return false
+end
+</code></pre>
 
                             <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                 <span style="font-size: 90%;float: left; height:30px;">
-                                    <small>Last updated August 21,2019</small>
+                                    <small>Last updated October 19,2020</small>
                                 </span>
                                 <span class="footer-links">
                                     <a href="https://github.com/christopherpickering" style="padding-right:20px;"><i class="fab fa-github"></i></a>

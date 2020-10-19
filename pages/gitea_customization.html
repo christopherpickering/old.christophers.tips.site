@@ -197,7 +197,7 @@
         
         
             <li class="header accordion-toggle">Code Management</li>
-            <div class="accordion-content ">
+            <div class="accordion-content  default">
             
             
                 <li class="chapter  ">
@@ -212,7 +212,7 @@
            
             
             
-                <li class="chapter  ">
+                <li class="chapter   active">
                     <a href="/pages/gitea_customization.html">Gitea Customization</a>
                 </li>
            
@@ -278,25 +278,64 @@
                 <div class="page-wrapper" tabindex="-1" role="main">
                     <div class="page-inner">
                         <section class="normal markdown-section">
-                            <h1>Hi, I'm Christopher Pickering</h1>
+                            <h1>How to Customize Gitea</h1>
 
-<p>I'm an engineer. I love my family, learning, building things, and solving hard problems.</p>
+<h2>Language Changes</h2>
 
-<h2>What I do</h2>
+<p>All language changes  for keywords are in the i18n files. In our case we need to change the app_desc on the home page.</p>
 
-<p>I work as a data engineer during the day. Most of my time is spent creating solutions and simplifying tasks with programming and doing data collection, reporting and analysis.  </p>
+<ol>
+<li>Login to server</li>
+<li>Change user to "git"  <code>sh sudo su git</code></li>
+<li>Change directory to Gitea. <code>sh cd /home/git/gitea/custom</code></li>
+<li>Make directory for change. <code>mkdir options &amp;&amp; cd options</code></li>
+<li>Make directory for languages. <code>mkdir locale &amp;&amp; cd locale</code></li>
+<li>Create language file. <code>sh nano locale_en-US.ini</code></li>
+<li>Copy everything from the template source from Gitea.</li>
+<li>Change any lines that you want changed.</li>
+<li>Exit as git user. <code>sh exit</code></li>
+<li>Restart Gitea service. <code>sudo systemctl restart gitea</code></li>
+</ol>
 
-<p>When other time is available I chip in at <a href="www.dayspringbibles.com">Dayspring Bibles</a> doing scripting, typesetting and other fun things.</p>
+<h2>Edit Home Page</h2>
 
-<h2>This Site</h2>
+<p>Navigate as git user to /home/git/gitea/custom</p>
 
-<p>This is a static html site built with markdown and compiled with python. You can learn how to make it <a href="/pages/make_this_site.html">here</a>. I've found that most of the time used on projects is spent finding a simple problem. The purpose of this site is to save the little solutions for next time :)</p>
+<ol>
+<li>Make a directory for the templates. <code>sh mkdir templates &amp;&amp; cd templates</code></li>
+<li>Create template file &amp; copy in source. <code>sh nano home.tmpl</code></li>
+<li>Retart Gitea service after making changes. <code>sudo systemctl restart gitea</code></li>
+</ol>
 
-<p><strong>Thanks for visiting.</strong></p>
+<h2>Change Landing Page</h2>
+
+<p>Navigate as git user to /home/git/gitea/custom/conf</p>
+
+<p>Edit app.ini</p>
+
+<pre><code>sudo nano app.ini
+
+# add section:
+[server]
+LANDING_PAGE = explore
+</code></pre>
+
+<h2>Restart Gitea After Changes</h2>
+
+<p>The Gitea service must be restarted for any changed to take affect.</p>
+
+<pre><code>sudo systemctl restart gitea
+</code></pre>
+
+<p>or</p>
+
+<pre><code>sudo systemctl stop gitea
+sudo systemctl start gitea
+</code></pre>
 
                             <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                 <span style="font-size: 90%;float: left; height:30px;">
-                                    <small>Last updated August 21,2019</small>
+                                    <small>Last updated July 26,2019</small>
                                 </span>
                                 <span class="footer-links">
                                     <a href="https://github.com/christopherpickering" style="padding-right:20px;"><i class="fab fa-github"></i></a>

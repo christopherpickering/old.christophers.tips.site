@@ -278,25 +278,63 @@
                 <div class="page-wrapper" tabindex="-1" role="main">
                     <div class="page-inner">
                         <section class="normal markdown-section">
-                            <h1>Hi, I'm Christopher Pickering</h1>
+                            <h2>Build an Image</h2>
 
-<p>I'm an engineer. I love my family, learning, building things, and solving hard problems.</p>
+<pre><code># to build an image of the current directories docker file
+docker build -t &lt;name&gt; .
+</code></pre>
 
-<h2>What I do</h2>
+<h2>List Images</h2>
 
-<p>I work as a data engineer during the day. Most of my time is spent creating solutions and simplifying tasks with programming and doing data collection, reporting and analysis.  </p>
+<pre><code>docker images
+</code></pre>
 
-<p>When other time is available I chip in at <a href="www.dayspringbibles.com">Dayspring Bibles</a> doing scripting, typesetting and other fun things.</p>
+<h2>Run Image</h2>
 
-<h2>This Site</h2>
+<pre><code>docker run &lt;name&gt;
+</code></pre>
 
-<p>This is a static html site built with markdown and compiled with python. You can learn how to make it <a href="/pages/make_this_site.html">here</a>. I've found that most of the time used on projects is spent finding a simple problem. The purpose of this site is to save the little solutions for next time :)</p>
+<h2>Inspect Image</h2>
 
-<p><strong>Thanks for visiting.</strong></p>
+<pre><code>docker inspect &lt;repo:tag or id&gt;
+
+## Clean Up
+
+### Remove everything
+
+```sh
+docker prune
+</code></pre>
+
+<h3>Remove Images by Name</h3>
+
+<pre><code># get image id
+docker images
+# delete image
+docker rmi -f &lt;image id&gt;
+</code></pre>
+
+<h1>Docker Composer</h1>
+
+<h2>Run a Docker Image</h2>
+
+<pre><code># add -d flag for daemon mode
+docker-compose up
+</code></pre>
+
+<h2>What is Running</h2>
+
+<pre><code>docker-compose ps
+</code></pre>
+
+<h2>Stop Running</h2>
+
+<pre><code>docker-compose stop
+</code></pre>
 
                             <p style="border-top: solid rgba(0, 0, 0, .07) 1px;padding-top: 20px;">
                                 <span style="font-size: 90%;float: left; height:30px;">
-                                    <small>Last updated August 21,2019</small>
+                                    <small>Last updated June 25,2019</small>
                                 </span>
                                 <span class="footer-links">
                                     <a href="https://github.com/christopherpickering" style="padding-right:20px;"><i class="fab fa-github"></i></a>
